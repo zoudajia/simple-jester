@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>Jester</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Win32)">
+	<META NAME="AUTHOR" CONTENT="Ivan Moore">
+	<META NAME="CREATED" CONTENT="20071125;21522967">
+	<META NAME="CHANGED" CONTENT="20071207;21110676">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<H1><A HREF="http://jester.sourceforge.net/">Simple <FONT COLOR="#ff6666">J</FONT><FONT COLOR="#66ff99">e</FONT><FONT COLOR="#3366ff">s</FONT><FONT COLOR="#66ff99">t</FONT><FONT COLOR="#ff99ff">e</FONT><FONT COLOR="#ff6666">r</FONT></A>
+- the test tester.</H1>
+<P><TT>Copyright (2000-2008) <A HREF="http://www.tadmad.co.uk/">Ivan
+Moore</A>.</TT> 
+</P>
+<P>Jester finds code that is not covered by tests. Jester makes some
+change to your code, runs your build (which runs your tests), and if
+the tests pass Jester displays a message saying what it changed.
+(This is called &quot;mutation testing&quot;). This version of Jester
+is a simplification of the &ldquo;standard&rdquo; one. The aim for
+this version of Jester is for it to be much simpler to run.</P>
+<P>Jester includes a script for generating web pages that show the
+changes made that did not cause the tests to fail. 
+</P>
+<P>Jester is different than code coverage tools, because it can find
+code that is executed by the running of tests but not actually
+tested. However, Jester is not meant as a replacement for code
+coverage tools, merely as a complementary approach. 
+</P>
+<P>Jester is available only under the terms of the <A HREF="LICENSE.html">license
+agreement</A>. 
+</P>
+<P>This version of Jester has been tried on Windows, using Sun's JDK
+1.5. There is absolutely no warranty whatsoever (see <A HREF="LICENSE.html">license
+agreement</A> ); it might work on those or other platforms - see the
+<A HREF="http://jester.sourceforge.net/">Jester web page</A> for
+latest known bugs, platforms that it has been tried on, FAQs, etc).
+Older versions of Jester might work with older versions of Java.</P>
+<P>The <FONT COLOR="#008000">most important bits are in green</FONT>, for the impatient.</P>
+<H2>Installation:</H2>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">unzip the jester.zip file (e.g.
+	simple-jester-1.0.zip) in an empty directory 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Java (&gt;=1.4) must already be
+	installed, with java on the path 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><B><FONT COLOR="#008000">Add
+	Jester to the classpath</FONT></B>; (e.g. on windows, something like '<TT>set
+	classpath=%classpath%;INSTALL_DIR\simple-jester.jar')</TT> 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Windows users can run the included
+	batch file 'setcp' to set the classpath to include Jester and JUnit
+	for running an example (test.bat) and Jester's tests
+	(runAllTests.bat) in the installation directory. For a simple
+	example (which currently only runs under Windows), run the batch
+	file '<TT>test.bat</TT>'. 
+	</P>
+	<LI><P>Some text should be output, and after less than 2 minutes,
+	the execution should finish with following text output: 
+	</P>
+</UL>
+<P><TT>17 mutations survived out of 19 changes. Score = 11</TT><BR><TT>took
+0 minutes</TT> 
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">If the message above does not
+	appear, see the FAQ referenced at the end of this document. 
+	</P>
+	<P>This example also needs <B>Python &gt;= 2.0</B> installed and
+	generates a file &quot;<TT>jester.html</TT>&quot; which shows the
+	changes Jester made that did not cause the tests to fail. (If you
+	don't have python installed, then '<TT>test.bat</TT>' will still run
+	but won't produce &quot;<TT>jester.html</TT>&quot; and will say
+	something about python not being recognized. 
+	</P>
+</UL>
+<P>Jester has a progress window - the progress bar shows the
+proportion of source files that have been mutated; the text area
+shows the most recent mutation that has been made; the progress bar
+is green if the last mutation caused the tests to fail (i.e. good)
+and red if the tests still passed despite the mutation (i.e. bad).
+Note that the progress bar does not show progress while making
+different mutations to the same file - that is shown by text in the
+text area changing - because that was simpler to implement. 
+</P>
+<H2>Usage:</H2>
+<UL>
+	<LI><P><STRONG><B><FONT COLOR="#008000">Very IMPORTANT</FONT></B></STRONG><B><FONT COLOR="#008000">
+	- only run Jester on a copy of your source files</FONT></B> - as
+	Jester changes the source code that it works on. If you use source
+	control (which everyone should!) then you can leave your source code
+	where it is (making sure everything you want to be in source control
+	is checked in) and overwrite all your source from source control
+	after running Jester. If you don't use source control, only run
+	Jester on a copy of your source in a different directory, otherwise
+	you'll regret it!</P>
+	<LI><P><FONT COLOR="#008000">To run Jester, execute '<TT><B>java
+	jester.TestTester BUILD_COMMAND SOURCE_DIRECTORY</B></TT>'
+	where <TT>BUILD_COMMAND</TT> is your build command and <TT>SOURCE_DIRECTORY</TT>
+	is the directory (or a single source file) that contains the source
+	code that you want<FONT FACE="Times New Roman, serif"> Jester </FONT> to
+	mutation test.</FONT></P>
+	<LI><P><TT><FONT COLOR="#008000">BUILD_COMMAND</FONT></TT><FONT COLOR="#008000">
+	should be the build command that is expected to show up any changes
+	to code in the </FONT><TT><FONT COLOR="#008000">SOURCE_DIRECTORY.
+	</FONT></TT><FONT COLOR="#008000">Typically, </FONT><TT><FONT COLOR="#008000">BUILD_COMMAND</FONT></TT><FONT COLOR="#008000">
+	would compile and run the unit tests for the code in
+	</FONT><TT><FONT COLOR="#008000">SOURCE_DIRECTORY.</FONT></TT><FONT COLOR="#008000">
+	(e.g. &quot;</FONT><TT><FONT COLOR="#008000">ant.bat -f my-build.xml
+	compile run-unit-tests</FONT></TT><FONT COLOR="#008000">&quot;).
+	NOTE that on windows, for running ant, you need to say &quot;ant.bat&quot;
+	not just &quot;ant&quot;. NOTE that you need the double quotes
+	around the complete build command if it contains spaces (as it often
+	will).</FONT></P>
+	<LI><P>For any change that Jester was able to make without the build
+	failing, it prints the name of the file changed, the position in the
+	file of the change (the character index), and some of the original
+	source file from roughly 30 characters before to 30 characters after
+	so that the change can be identified within the source file. Note
+	that Jester can take a long time to run - try it on a small part of
+	your system before trying it on everything.</P>
+	<LI><P>Jester also produces a file called &quot;<TT>jesterReport.xml</TT>&quot;
+	that contains all the changes that Jester made that did not cause
+	the tests to fail. 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT COLOR="#008000">Execute
+	&quot;</FONT><TT><FONT COLOR="#008000">python makeWebView.py</FONT></TT><FONT COLOR="#008000">&quot;
+	to generate copies of the original source files as &quot;</FONT><TT><FONT COLOR="#008000">.html</FONT></TT><FONT COLOR="#008000">&quot;
+	pages</FONT>, with all the changes Jester made that did not cause
+	the tests to fail shown in red, and the code it changed shown with a
+	line through it. A file &quot;<TT>jester.html</TT>&quot; is
+	generated which links to all these files. These files are in the
+	same directories, and have the same names, as the original source
+	files, except have a &quot;<TT>.html</TT>&quot; extension. This
+	script has options: 
+	</P>
+	<UL>
+		<LI><P STYLE="margin-bottom: 0cm">-z to ignore files that Jester
+		didn't make any changes to 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm">-p to ignore files that Jester
+		didn't make any changes to where the tests still passed 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm">-s to sort the files by file name
+		in the &quot;<TT>jester.html</TT>&quot; file. 
+		</P>
+	</UL>
+	<P>For other options, try &quot;<TT>python makeWebView.py -h</TT>&quot;.
+		</P>
+	<LI><P>Execute &quot;<TT>python makeAllChangesFiles.py
+	jesterReport.xml</TT>&quot; to generate copies of the original
+	source files with all the changes Jester made that did not cause the
+	tests to fail. These files are in the same directories, and have the
+	same names, exept have a &quot;<TT>.jester</TT>&quot; extension
+	(configurable). These files are useful for comparing against the
+	original source code using whatever you usually use to compare
+	files, to easily find the changes Jester made that did not cause the
+	tests to fail.</P>
+	<LI><P>Jester prints out warnings when it can't find it's config
+	files. In such circumstances, Jester uses default values which are
+	OK in many cases (i.e. Java code with an &quot;ant&quot; build
+	command).</P>
+	<LI><P>Jester writes out a file &quot;<TT>jesterTimeout.txt</TT>&quot;
+	(in the directory where it is executed) whose contents is the number
+	of milliseconds the tests took to run the first time they were run
+	(i.e. before Jester made any changes). This is used by Jester to
+	stop running the tests if they are taking too long (e.g. in case a
+	change made by Jester causes the code to enter an infinite loop). 
+	</P>
+	<LI><P>If you kill Jester during a run, by CTRL-C, there is a risk
+	that your source code will not be reverted back to its original
+	state and hence the tests might fail and hence Jester will not be
+	able to run against your code unless you revert the effected file.
+	This might be fixed in a future version, but might not - Jester
+	cannot be held responsible for messing up your source code, it's up
+	to you to look after it. 
+	</P>
+</UL>
+<H2>Configuration options</H2>
+<P>For the following features, edit the file called &quot;<TT>jester.cfg</TT>&quot;
+from the installation directory and make sure it is on the classpath.
+For example, <TT>buildPassString=BUILD SUCCESSFUL</TT> refers to a
+line of text in the <TT>jester.cfg</TT> file. 
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">Jester can be used for builds
+	using any build tool that produces output to standard output that
+	indicates whether the build was successful or not, by setting
+	<TT>buildPassString</TT> to whatever indicates to Jester that the
+	build was successful. By default, this is set to
+	<TT>buildPassString=BUILD SUCCESSFUL</TT> which means that Jester
+	will work with ant builds &quot;out of the box&quot;. 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">If your source code uses a
+	different source file extension than <TT>.java</TT> then set
+	<TT>sourceFileExtension</TT> as appropriate. 
+	</P>
+	<LI><P>Jester can also be made to print the results as it goes
+	rather than waiting until it has finished to print an amalgamated
+	report of all the changes it has made per file, by setting
+	<TT>shouldReportEagerly=true</TT>. This can be useful if Jester is
+	failing to complete it's run. 
+	</P>
+</UL>
+<H2>Configurable mutations</H2>
+<P>The mutations that Jester applies to the source code are
+configurable, by editing the file &quot;<TT>mutations.cfg</TT>&quot;
+from the installation directory, which must be on the classpath. Each
+line of this file must have a format like: 
+</P>
+<P><TT>%if(%if(true ||</TT> where % can be any single character as a
+delimiter, and the text <TT>if(</TT> will be replaced by <TT>if(true
+||</TT>. 
+</P>
+<P>This simple scheme of replacing text without parsing has proven
+adequate so far, but may change in a future version of Jester.</P>
+<H2>Configurable Ignore List (e.g. for ignoring comments)</H2>
+<P>Jester can be made to ignore parts of every source file, by using
+the <TT>ignorelist.cfg</TT> file. This file contains lines starting
+with a delimiter character that specify regions of the source code to
+ignore; i.e. regions where it will not try to make a mutation. The
+first string is where to start ignoring the source and the second is
+where to stop ignoring the source. For example, to ignore comments in
+Java code, the <TT>ignorelist.cfg</TT> file would contain: 
+</P>
+<PRE>%/*%*/
+%//%\n</PRE><P>
+This is not entirely correct but is close enough; e.g. a string
+&quot;http://jester.sf.net&quot; up to the end of the line would not
+be considered for mutation by Jester using this <TT>ignorelist.cfg</TT>
+file, but that's not so bad. (Note - these are included in the
+<TT>ignorelist.cfg</TT> file in the standard build). 
+</P>
+<P>This feature can be used by Pester (Jester on Python code) too,
+e.g. to ignore python comments the <TT>ignorelist.cfg</TT> file would
+contain:</P>
+<PRE STYLE="margin-bottom: 0.5cm">%#%\n</PRE><P>
+Note - the standard build also includes the line
+<TT>%//stopJesting%//resumeJesting</TT> so that you can easily tell
+Jester to ignore parts if a source file if it is causing problems for
+Jester. i.e. put a comment <TT>//stopJesting</TT> on the line before
+the code you want Jester to ignore and <TT>//resumeJesting</TT> on
+the line after the code you want Jester to ignore.</P>
+<H2>Known Problems:</H2>
+<P>If the code will not compile (either because of classes missing
+from the class path before Jester tried to compile any classes, or as
+a result of a change to a source file by Jester) then Jester might
+hang indefinitely. 
+</P>
+<P><B>NOTE</B> that this version of Jester <STRONG>will not</STRONG>
+work with any version of Pester, but can be used <STRONG>instead</STRONG>
+of Pester. This version of Jester is relatively easy to get to work
+for any language as long as you can give Jester some command to run
+(to compile if necessary, and run the tests of the code you want to
+run Jester on) and the source file extension.</P>
+<H2>For Jester Developers:</H2>
+<P>If you want to look at Jester's java source code it is included in
+your &quot;<TT>simple-jester.zip</TT>&quot; as a file called
+&quot;<TT>source.jar</TT>&quot;. The source for the python code are
+the <TT>.py</TT> files. To run Jester's tests</P>
+<UL>
+	<LI><P>execute '<TT>runAllTests.bat</TT>', and the PyUnit and JUnit
+	tests for Jester should run with no errors. (actually,
+	makeAllChangesFilesTest.py currently fails - I haven't had a look
+	why yet.) <B>Note that these tests need Python 2.2, JUnit 3.7/3.8.1
+	and the <A HREF="http://www.mockobjects.com/">MockObjects</A>
+	framework</B> - Jester itself will run with other versions of JUnit
+	&gt;= 3.2 and doesn't need the <A HREF="http://www.mockobjects.com/">MockObjects</A>
+	framework to run (Some test code was generated automatically using
+	<A HREF="http://mockmaker.sourceforge.net/">MockMaker</A>). (BTW -
+	the tests are not complete - see <A HREF="http://jester.sourceforge.net/">Jester
+	web page</A> for details). The <A HREF="http://mockmaker.sourceforge.net/">MockMaker</A>
+	modified <A HREF="http://www.mockobjects.com/">MockObjects</A>
+	runtime is included as <TT>lib/mmmockobjects.jar</TT> under the
+	relevant licenses (<A HREF="MockObjectsLicense.html">MockObjects
+	license</A> and <A HREF="MockMakerLicense.html">MockMaker license</A>),
+	hence: This product includes software developed by the Apache
+	Software Foundation (http://www.apache.org/). and the JUnit runtime
+	is included as <TT>lib/junit.jar</TT> under it's <A HREF="JUNITLICENSE.htm">license</A>.
+		</P>
+</UL>
+<H2>Acknowledgements 
+</H2>
+<P>Very many thanks to:</P>
+<UL>
+	<LI>Nat Pryce for
+	reporting the problem with running simple-jester version 1.0 in linux. 
+
+	<LI>Elliotte Rusty Harold for
+	reporting and fixing bug 1035010. 
+	
+	<LI>Diego Vallespir for reporting bugs
+	1031730 and 1031735. 
+	
+	<LI>Bernd Schiffer for sending fixes
+	for using source directories with spaces in their names. 
+	
+	<LI>Stefan Roock, who has joined the
+	Jester project as a developer. 
+	
+	<LI>Brett Neumeier for the suggested
+	improvements to the <TT>makeWebView.py</TT> script. 
+	
+	<LI>Aho Augasmagi for getting me to
+	implement the Ignore Lists. 
+	
+	<LI>Kent Beck and Robert Martin for
+	their great quotes about Jester on the <A HREF="http://jester.sourceforge.net/">Jester
+	home page</A>. 
+	
+	<LI>Duncan Pierce for the idea of
+	using the <TT>jesterReport.xml</TT> file to generate the &quot;<TT>.html</TT>&quot;
+	files to show the changes Jester made that did not cause the tests
+	to fail in an easily browsable way. 
+	
+	<LI>Manfred Kaul for sending a fix to make Jester report problems
+	when it tries to 'exec' things that don't work (in particular, if
+	things are missing from the classpath). 
+	
+</UL>
+<H2>Support:</H2>
+<P>Please check the <A HREF="http://jester.sourceforge.net/">Jester
+web pages</A> (hosted by <A HREF="http://www.sourceforge.net/">sourceforge</A>)
+for updates and the FAQs, and please enter comments or bug reports on
+the appropriate pages linked from there.</P>
+<H3>If it doesn't work</H3>
+<P>The file &quot;<TT>jester.log</TT>&quot; (in the directory where
+you ran jester) shows the commands that Jester has tried to run. In
+many cases, you can work out what is wrong by trying to run the last
+command that Jester tried to run. E.g. if the last line of the
+&quot;<TT>jester.log</TT>&quot; says &quot;<TT>Sat Dec 01 21:46:36
+PST 2001 Trying to run command &quot;ant.bat -f test-build.xml&quot;</TT>&quot;,
+then try running &quot;<TT>ant.bat -f test-build.xml</TT>&quot;; this
+may then reveal the problem. In the case of tests not passing (e.g.
+the message &quot;Couldn't run test tester because tests didn't pass
+before any changes made&quot;), try running the tests both directly
+(e.g. &quot;<TT>ant.bat -f test-build.xml</TT>&quot;) and using the
+code that Jester uses (e.g. &quot;<TT>java jester.RealTestRunner
+&quot;ant.bat -f test-build.xml&quot;</TT>&quot;). Please delete the
+file &quot;<TT>jester.log</TT>&quot; whenever it gets too large, or
+before running Jester if preferred. 
+</P>
+<HR>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1>version 1.2-simple</FONT>
+<BR><A HREF="mailto:jester@tadmad.co.uk">jester@tadmad.co.uk</A> 
+</P>
+<HR>
+</BODY>
+</HTML>

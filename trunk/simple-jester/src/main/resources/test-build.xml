@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project name="JesterTester" default="test" basedir=".">
+  <property name="src" value="jester"/>
+  <property name="build" value="bin"/>
+
+  <path id="classpath">
+    <fileset dir="lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <pathelement location="."/>
+    <pathelement location="${build}"/>
+  </path>
+
+  <property name="classpath" refid="classpath">
+  </property>
+
+  <target name="init">
+    <tstamp>
+    <format property="TIMENOW" pattern="h:mm a" locale="en"/>
+    <format property="DATENOW" pattern="dd/MM/yyyy" locale="en"/>
+    </tstamp>
+    <echo message="Started building at ${TIMENOW} on ${DATENOW}" />
+  </target>
+
+  <target name="compile" depends="init">
+    <mkdir dir="${build}"/>
+    <javac srcdir="${src}" 
+      destdir="${build}" classpathref="classpath" debug="true">
+    </javac>
+  </target>
+  
+  <target name="test" depends="compile">
+    <junit printsummary="on" fork="yes" haltonfailure="true">
+       <classpath refid="classpath" />
+       <formatter type="plain"/>
+       <batchtest fork="yes">
+         <fileset dir=".">
+           <include name="jester/acceptancetests/*Test.java" />
+         </fileset>
+      </batchtest>
+    </junit>
+  </target>  
+  
+</project>
