@@ -1,0 +1,5 @@
+<JesterReport>
+	<JestedFile fileName="pyTestFiles\someFile.txt" absolutePathFileName="C:\temp\pyTestFiles\someFile.txt" numberOfChangesThatDidNotCauseTestsToFail="1" numberOfChanges="1" score="0">
+		<ChangeThatDidNotCauseTestsToFail index="23" from="land" to="banana"/>
+	</JestedFile>
+</JesterReport>
