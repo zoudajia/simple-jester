@@ -3,8 +3,14 @@ package jester.tests;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import jester.*;
-import junit.framework.*;
+import jester.ConfigurationException;
+import jester.IgnoreList;
+import jester.IgnoreListDocument;
+import jester.RealReport;
+import jester.Report;
+import jester.SourceChangeException;
+import jester.XMLReportWriter;
+import junit.framework.TestCase;
 
 public class ReportTest extends TestCase {
 	private XMLReportWriter myXMLWriter = new MockXMLReportWriter();

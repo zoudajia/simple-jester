@@ -1,6 +1,8 @@
 package jester.tests;
 
-import jester.*;
+import jester.ConfigurationException;
+import jester.IgnoreList;
+import jester.IgnoreListDocument;
 import junit.framework.TestCase;
 
 public class IgnoreListDocumentTest extends TestCase {

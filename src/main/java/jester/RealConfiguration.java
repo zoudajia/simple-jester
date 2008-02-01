@@ -1,6 +1,8 @@
 package jester;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Properties;
 

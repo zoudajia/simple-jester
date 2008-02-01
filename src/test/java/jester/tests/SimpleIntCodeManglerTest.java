@@ -1,7 +1,10 @@
 package jester.tests;
 
-import jester.*;
-import junit.framework.*;
+import jester.CodeMangler;
+import jester.IgnoreList;
+import jester.SimpleIntCodeMangler;
+import jester.SourceChangeException;
+import junit.framework.TestCase;
 
 public class SimpleIntCodeManglerTest extends TestCase {
 	public SimpleIntCodeManglerTest(String name) {

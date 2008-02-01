@@ -1,7 +1,11 @@
 package jester.tests;
 
-import jester.*;
-import junit.framework.*;
+import jester.ClassTestTester;
+import jester.MutationsList;
+import jester.RealClassTestTester;
+import jester.SourceChangeException;
+import jester.TestRunner;
+import junit.framework.TestCase;
 
 public class ClassTestTesterTest extends TestCase {
 	public ClassTestTesterTest(String name) {

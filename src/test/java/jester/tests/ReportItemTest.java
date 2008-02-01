@@ -1,9 +1,11 @@
 package jester.tests;
 
-import jester.*;
+import jester.ConfigurationException;
+import jester.IgnoreList;
+import jester.IgnoreListDocument;
 import jester.ReportItem;
 import jester.SourceChangeException;
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class ReportItemTest extends TestCase {
 	public ReportItemTest(String name) {

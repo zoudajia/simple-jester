@@ -2,7 +2,9 @@ package jester;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class IgnoreListDocument {
 

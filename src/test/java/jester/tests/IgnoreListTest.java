@@ -1,8 +1,11 @@
 package jester.tests;
 
-import jester.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.*;
+import jester.ConfigurationException;
+import jester.IgnoreList;
+import jester.IgnorePair;
 import junit.framework.TestCase;
 
 public class IgnoreListTest extends TestCase {

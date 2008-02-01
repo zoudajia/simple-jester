@@ -1,6 +1,7 @@
 package jester.tests;
 
-import jester.*;
+import jester.ClassIterator;
+import jester.ClassTestTester;
 import junit.framework.Assert;
 
 public class MockClassIterator implements ClassIterator {

@@ -1,12 +1,13 @@
 package jester.tests;
 
-import java.io.*;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.io.StringReader;
 
 import jester.MutationsList;
 import jester.RealMutationsList;
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class MutationsListTest extends TestCase {
 	private static PrintStream NullErrorStream = new PrintStream(new ByteArrayOutputStream());
