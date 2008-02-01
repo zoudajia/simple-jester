@@ -1,7 +1,10 @@
 package jester.tests;
 
-import jester.*;
-import junit.framework.*;
+import jester.ClassSourceCodeChanger;
+import jester.CodeMangler;
+import jester.SourceChangeException;
+import jester.TwoStringSwappingCodeMangler;
+import junit.framework.TestCase;
 
 public class TwoStringSwappingCodeManglerTest extends TestCase {
 	private String originalString1 = "one", replacementString1 = "uno";

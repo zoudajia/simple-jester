@@ -1,11 +1,16 @@
 package jester.tests;
 
+import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.io.File;
 
-import jester.*;
-import junit.framework.*;
+import jester.IgnoreList;
+import jester.IgnoreListDocument;
+import jester.RealXMLReportWriter;
+import jester.ReportItem;
+import jester.SourceChangeException;
+import jester.XMLReportWriter;
+import junit.framework.TestCase;
 
 public class XMLReportWriterTest extends TestCase {
 	public XMLReportWriterTest(String name) {

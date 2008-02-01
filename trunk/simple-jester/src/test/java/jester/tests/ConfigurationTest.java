@@ -1,10 +1,12 @@
 package jester.tests;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
 import jester.Configuration;
 import jester.RealConfiguration;
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class ConfigurationTest extends TestCase {
 	private static PrintStream NullErrorStream = new PrintStream(new ByteArrayOutputStream());

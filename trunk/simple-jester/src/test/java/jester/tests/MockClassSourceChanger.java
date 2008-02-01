@@ -1,6 +1,10 @@
 package jester.tests;
 
-import jester.*;
+import jester.ClassSourceCodeChanger;
+import jester.ConfigurationException;
+import jester.IgnoreList;
+import jester.IgnoreListDocument;
+import jester.SourceChangeException;
 import junit.framework.Assert;
 
 public class MockClassSourceChanger implements ClassSourceCodeChanger {
