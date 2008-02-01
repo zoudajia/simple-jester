@@ -8,10 +8,6 @@ public class IgnoreListDocumentTest extends TestCase {
 		super(arg0);
 	}
 
-	public static void main(String[] args) {
-		junit.awtui.TestRunner.run(IgnoreListDocumentTest.class);
-	}
-
 	public void testTextIsIgnored() throws ConfigurationException {
 		IgnoreList ignoreList = new IgnoreList("%/*%*/");
 		String source = "mary had a /*little*/ lamb";

@@ -10,15 +10,6 @@ public class ReportItemTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.ReportItemTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(ReportItemTest.class);
-		return suite;
-	}
-
 	private ReportItem newReportItem(String originalContents, String from, String to, int indexOfChange) throws ConfigurationException {
 		return new ReportItem("sourceFileName", new IgnoreListDocument(originalContents, new IgnoreList("")), indexOfChange, from, to);
 	}

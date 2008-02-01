@@ -4,10 +4,6 @@ import jester.Configuration;
 import jester.Logger;
 
 public class TestConfiguration implements Configuration {
-	public TestConfiguration() {
-		super();
-	}
-
 	public boolean shouldReportEagerly() {
 		return false;
 	}

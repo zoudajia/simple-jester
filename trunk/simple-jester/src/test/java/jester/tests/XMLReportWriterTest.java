@@ -12,15 +12,6 @@ public class XMLReportWriterTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.XMLReportWriterTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(XMLReportWriterTest.class);
-		return suite;
-	}
-
 	public void testWritingChangesAsXMLHasBothGivenAndAbsoluteFilePaths() throws SourceChangeException {
 		Writer aWriter = new StringWriter();
 		XMLReportWriter aXMLReportWriter = new RealXMLReportWriter(aWriter);

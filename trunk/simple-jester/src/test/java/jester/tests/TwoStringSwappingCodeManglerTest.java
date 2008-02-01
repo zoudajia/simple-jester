@@ -10,17 +10,8 @@ public class TwoStringSwappingCodeManglerTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.TwoStringSwappingCodeManglerTest" });
-	}
-
 	private CodeMangler newCodeMangler(ClassSourceCodeChanger sourceCodeSystem) {
 		return new TwoStringSwappingCodeMangler(sourceCodeSystem, originalString1, replacementString1);
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(TwoStringSwappingCodeManglerTest.class);
-		return suite;
 	}
 
 	public void testCouldntMangle() throws SourceChangeException {

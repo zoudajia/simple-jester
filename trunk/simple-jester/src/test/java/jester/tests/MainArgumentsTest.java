@@ -3,9 +3,7 @@ package jester.tests;
 import jester.FileExistenceChecker;
 import jester.JesterArgumentException;
 import jester.MainArguments;
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class MainArgumentsTest extends TestCase {
 	FileExistenceChecker anythingFileExistenceChecker = new FileExistenceChecker() {
@@ -21,15 +19,6 @@ public class MainArgumentsTest extends TestCase {
 
 	public MainArgumentsTest(String name) {
 		super(name);
-	}
-
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { MainArgumentsTest.class.getName() });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(MainArgumentsTest.class);
-		return suite;
 	}
 
 	public void testMissingArgumentsCauseExceptionToBeThrown() throws Exception {

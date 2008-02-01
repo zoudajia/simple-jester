@@ -11,10 +11,6 @@ public class IgnoreListTest extends TestCase {
 		super(arg0);
 	}
 
-	public static void main(String[] args) {
-		junit.awtui.TestRunner.run(IgnoreListTest.class);
-	}
-
 	public void testReadingEmptyIgnoreValues() throws ConfigurationException {
 		List expectedIgnorePairs = new ArrayList();
 		String ignoreFileContents = "";

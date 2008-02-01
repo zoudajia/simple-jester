@@ -13,15 +13,6 @@ public class ConfigurationTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.ConfigurationTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(ConfigurationTest.class);
-		return suite;
-	}
-
 	public void testDefaults() throws IOException {
 		Configuration config = new RealConfiguration("there must be no file called this", NullErrorStream); // there
 																											// is
