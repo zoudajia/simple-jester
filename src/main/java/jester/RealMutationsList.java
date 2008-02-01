@@ -5,18 +5,20 @@ import java.util.StringTokenizer;
 
 public class RealMutationsList implements MutationsList {
 	public static final String DEFAULT_MUTATIONS_FILENAME = "mutations.cfg";
-	
+
 	private String myFileName;
 	private PrintStream myErrorStream;
-	
+
 	public RealMutationsList(String fileName, PrintStream errorStream) {
 		super();
 		myFileName = fileName;
 		myErrorStream = errorStream;
 	}
+
 	public RealMutationsList(String fileName) {
 		this(fileName, System.err);
 	}
+
 	public void visit(BufferedReader aBufferedReader, MutationMaker aMutationMaker) throws IOException, SourceChangeException {
 		String line = aBufferedReader.readLine();
 		while (line != null) {
@@ -24,11 +26,12 @@ public class RealMutationsList implements MutationsList {
 			line = aBufferedReader.readLine();
 		}
 	}
+
 	public void visit(MutationMaker aMutationMaker) throws SourceChangeException {
 		try {
 			InputStream mutationsFile = ClassLoader.getSystemResourceAsStream(myFileName);
 			if (mutationsFile == null) {
-				myErrorStream.println("Warning - could not find "+DEFAULT_MUTATIONS_FILENAME+" so using default mutations.");
+				myErrorStream.println("Warning - could not find " + DEFAULT_MUTATIONS_FILENAME + " so using default mutations.");
 				aMutationMaker.mutate("true", "false");
 				aMutationMaker.mutate("false", "true");
 				aMutationMaker.mutate("if(", "if(true ||");
@@ -46,8 +49,9 @@ public class RealMutationsList implements MutationsList {
 			throw new SourceChangeException("could not visit mutations " + ex);
 		}
 	}
+
 	private void visitLine(String line, MutationMaker aMutationMaker) throws SourceChangeException {
-		if(line.length() == 0){
+		if (line.length() == 0) {
 			return;
 		}
 		String delimiter = line.substring(0, 1);

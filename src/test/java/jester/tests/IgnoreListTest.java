@@ -62,7 +62,7 @@ public class IgnoreListTest extends TestCase {
 			IgnoreList ignoreList = new IgnoreList(ignoreFileContents);
 			ignoreList.ignorePairs();
 		} catch (ConfigurationException ex) {
-			//pass
+			// pass
 		}
 	}
 

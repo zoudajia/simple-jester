@@ -21,16 +21,12 @@ public class FileBasedClassSourceCodeChanger implements ClassSourceCodeChanger {
 		try {
 			if (originalContents == null) {
 				String ignoreListContents = "";
-                // XXX fix 1182669 here
-				try{
+				// XXX fix 1182669 here
+				try {
 					ignoreListContents = Util.readFileOnClassPath(IgnoreListDocument.FILE_NAME);
-				}
-                catch(FileNotFoundException ignored){
-					System.err.println("Warning - could not find "+IgnoreListDocument.FILE_NAME+" so using default ignore list.");
-                   ignoreListContents = "%/*%*/\n"
-                    + "%//%\\n\n"
-                    + "%//stopJesting%//resumeJesting\n"
-                    + "%case%:\n";
+				} catch (FileNotFoundException ignored) {
+					System.err.println("Warning - could not find " + IgnoreListDocument.FILE_NAME + " so using default ignore list.");
+					ignoreListContents = "%/*%*/\n" + "%//%\\n\n" + "%//stopJesting%//resumeJesting\n" + "%case%:\n";
 				}
 				originalContents = new IgnoreListDocument(Util.readFile(sourceFileName), new IgnoreList(ignoreListContents));
 			}
@@ -42,17 +38,15 @@ public class FileBasedClassSourceCodeChanger implements ClassSourceCodeChanger {
 
 	public void writeOriginalContentsBack() throws SourceChangeException {
 		try {
-           Writer writer = new FileWriter(sourceFileName);
-           getOriginalContents().writeOnto(writer, 0, getOriginalContents().length());
-           writer.close();
-		} 
-        catch (IOException ex) {
+			Writer writer = new FileWriter(sourceFileName);
+			getOriginalContents().writeOnto(writer, 0, getOriginalContents().length());
+			writer.close();
+		} catch (IOException ex) {
 			throw new SourceChangeException(ex.getMessage());
 		}
 	}
-    
-	public void writeOverSourceReplacing(int index, String oldContents, String newContents) 
-      throws SourceChangeException {
+
+	public void writeOverSourceReplacing(int index, String oldContents, String newContents) throws SourceChangeException {
 		indexOfLastChange = index;
 		valueChangedFrom = oldContents;
 		valueChangedTo = newContents;

@@ -11,9 +11,11 @@ public class XMLReportWriterTest extends TestCase {
 	public XMLReportWriterTest(String name) {
 		super(name);
 	}
+
 	public static void main(String args[]) {
 		junit.awtui.TestRunner.main(new String[] { "jester.tests.XMLReportWriterTest" });
 	}
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite(XMLReportWriterTest.class);
 		return suite;
@@ -34,24 +36,14 @@ public class XMLReportWriterTest extends TestCase {
 
 		String absolutePathFileName = new File(relativePathSourceFileName).getAbsolutePath();
 		StringWriter expectedWriter = new StringWriter();
-		expectedWriter.write("  <JestedFile fileName=\"sFile\"\r\n" + 
-				"              absolutePathFileName=\""+absolutePathFileName+"\"\r\n" + 
-				"              numberOfChangesThatDidNotCauseTestsToFail=\"2\" numberOfChanges=\"4\" score=\"50\">\r\n" + 
-				"    <ChangeThatDidNotCauseTestsToFail\r\n" + 
-				"      index=\"12\" line=\"1\"\r\n" + 
-				"      from=\"time\" to=\"banana &amp;&amp;\"\r\n" + 
-				"      file=\"sFile\">\r\n" + 
-				"sFile - changed source on line 1 (char index=12) from time to banana &amp;&amp;\r\n" + 
-				"once upon a >>>time, in a land far far away ...\r\n" + 
-				"    </ChangeThatDidNotCauseTestsToFail>\r\n" + 
-				"    <ChangeThatDidNotCauseTestsToFail\r\n" + 
-				"      index=\"23\" line=\"1\"\r\n" + 
-				"      from=\"land\" to=\"carrot &lt; cake &gt; biscuit\"\r\n" + 
-				"      file=\"sFile\">\r\n" + 
-				"sFile - changed source on line 1 (char index=23) from land to carrot &lt; cake > biscuit\r\n" + 
-				"once upon a time, in a >>>land far far away ...\r\n" + 
-				"    </ChangeThatDidNotCauseTestsToFail>\r\n" + 
-				"  </JestedFile>");
+		expectedWriter.write("  <JestedFile fileName=\"sFile\"\r\n" + "              absolutePathFileName=\"" + absolutePathFileName + "\"\r\n"
+				+ "              numberOfChangesThatDidNotCauseTestsToFail=\"2\" numberOfChanges=\"4\" score=\"50\">\r\n" + "    <ChangeThatDidNotCauseTestsToFail\r\n"
+				+ "      index=\"12\" line=\"1\"\r\n" + "      from=\"time\" to=\"banana &amp;&amp;\"\r\n" + "      file=\"sFile\">\r\n"
+				+ "sFile - changed source on line 1 (char index=12) from time to banana &amp;&amp;\r\n" + "once upon a >>>time, in a land far far away ...\r\n"
+				+ "    </ChangeThatDidNotCauseTestsToFail>\r\n" + "    <ChangeThatDidNotCauseTestsToFail\r\n" + "      index=\"23\" line=\"1\"\r\n"
+				+ "      from=\"land\" to=\"carrot &lt; cake &gt; biscuit\"\r\n" + "      file=\"sFile\">\r\n"
+				+ "sFile - changed source on line 1 (char index=23) from land to carrot &lt; cake > biscuit\r\n" + "once upon a time, in a >>>land far far away ...\r\n"
+				+ "    </ChangeThatDidNotCauseTestsToFail>\r\n" + "  </JestedFile>");
 		String expectedXML = expectedWriter.toString();
 		//
 		assertEquals(Util.withoutWhitespace(expectedXML), Util.withoutWhitespace(aWriter.toString()));

@@ -9,9 +9,9 @@ public class IgnorePair {
 	}
 
 	public boolean equals(Object other) {
-		return other instanceof IgnorePair && equals((IgnorePair)other);
+		return other instanceof IgnorePair && equals((IgnorePair) other);
 	}
-	
+
 	private boolean equals(IgnorePair other) {
 		return start.equals(other.start) && end.equals(other.end);
 	}
@@ -21,7 +21,7 @@ public class IgnorePair {
 	}
 
 	public String toString() {
-		return "IgnorePair '"+start+"' -> '"+end+"'";
+		return "IgnorePair '" + start + "' -> '" + end + "'";
 	}
 
 	public String getStart() {

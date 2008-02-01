@@ -11,9 +11,9 @@ public class IgnoreRegion {
 	public boolean includes(int index) {
 		return index >= indexOfStart && index <= indexOfEnd;
 	}
-	
+
 	public String toString() {
-		return "IgnoreRegion [from "+indexOfStart+" to "+indexOfEnd+"]";
+		return "IgnoreRegion [from " + indexOfStart + " to " + indexOfEnd + "]";
 	}
 
 	public String within(String source) {

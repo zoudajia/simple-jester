@@ -8,11 +8,11 @@ public class FileBasedClassIterator implements ClassIterator {
 	private Report myReport;
 
 	public FileBasedClassIterator(Configuration configuration, String[] fileNames, Report aReport) {
-        myConfiguration = configuration;
-        // copy array so it can't be externally mutated
-        myFileNames = new String[fileNames.length];
-        System.arraycopy(fileNames, 0, myFileNames, 0, fileNames.length);
-        myReport = aReport;
+		myConfiguration = configuration;
+		// copy array so it can't be externally mutated
+		myFileNames = new String[fileNames.length];
+		System.arraycopy(fileNames, 0, myFileNames, 0, fileNames.length);
+		myReport = aReport;
 	}
 
 	public void iterate(final ClassTestTester visitor) throws SourceChangeException {
@@ -26,7 +26,7 @@ public class FileBasedClassIterator implements ClassIterator {
 			}
 		};
 		for (int i = 0; i < myFileNames.length; i++) {
-			visitFileOrDirectory(myFileNames[i], fileCounter);		
+			visitFileOrDirectory(myFileNames[i], fileCounter);
 		}
 		myReport.setNumberOfFilesThatWillBeTested(numberOfFiles[0]);
 

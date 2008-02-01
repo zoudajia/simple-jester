@@ -8,6 +8,7 @@ public class MockClassIterator implements ClassIterator {
 	private int actualIterateCalls = 0;
 
 	private ClassTestTester expectedClassTestTester;
+
 	public MockClassIterator() {
 		super();
 	}
@@ -15,9 +16,11 @@ public class MockClassIterator implements ClassIterator {
 	public void setExpectedIterate(ClassTestTester classTestTester) {
 		expectedClassTestTester = classTestTester;
 	}
+
 	public void setExpectedIterateCalls(int calls) {
 		expectedIterateCalls = calls;
 	}
+
 	public void verify() {
 		Assert.assertEquals(expectedIterateCalls, actualIterateCalls);
 	}

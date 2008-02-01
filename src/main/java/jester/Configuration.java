@@ -1,16 +1,17 @@
 package jester;
 
 public interface Configuration {
-	//e.g. ".java"
+	// e.g. ".java"
 	public String sourceFileExtension();
 
-	//e.g. "PASSED"
+	// e.g. "PASSED"
 	public String buildPassString();
 
-	//e.g. "jesterReport.xml"
+	// e.g. "jesterReport.xml"
 	public String xmlReportFileName();
 
 	public boolean shouldReportEagerly();
+
 	public Logger getLogger();
 
 	public boolean closeUIOnFinish();

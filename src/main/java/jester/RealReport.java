@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class RealReport implements Report {
-    
+
 	private Configuration myConfiguration;
 	private PrintWriter myOutput;
 	private int myTotalNumberOfChangesThatCausedTestsToFail = 0;
@@ -32,20 +32,18 @@ public class RealReport implements Report {
 	private void reportFileProgress() {
 		myProgressReporter.progress();
 	}
-    
+
 	private void redBar() {
 		myProgressReporter.setColor(Color.red);
 	}
-    
+
 	private void greenBar() {
 		myProgressReporter.setColor(Color.green);
 	}
 
-	public void startFile(String sourceFileName, IgnoreListDocument originalContents) 
-      throws SourceChangeException {
+	public void startFile(String sourceFileName, IgnoreListDocument originalContents) throws SourceChangeException {
 		if (mySourceFileName != null) {
-			throw new SourceChangeException("Cannot start a file until finished previous one (tried to start " 
-                    + sourceFileName + " when already doing " + mySourceFileName + ")");
+			throw new SourceChangeException("Cannot start a file until finished previous one (tried to start " + sourceFileName + " when already doing " + mySourceFileName + ")");
 		}
 		myNumberOfFileChangesThatCausedTestsToFail = 0;
 		myFileChangesThatDidNotCauseTestsToFail = new Vector();
@@ -55,8 +53,7 @@ public class RealReport implements Report {
 
 	public void finishFile(String sourceFileName) throws SourceChangeException {
 		if (!mySourceFileName.equals(sourceFileName)) {
-			throw new SourceChangeException("Cannot finish a different file to the one you started (finished " 
-                    + sourceFileName + " but expected " + mySourceFileName + ")");
+			throw new SourceChangeException("Cannot finish a different file to the one you started (finished " + sourceFileName + " but expected " + mySourceFileName + ")");
 		}
 		reportFileProgress();
 		printFileChanges();
@@ -65,8 +62,7 @@ public class RealReport implements Report {
 		myOriginalContents = null;
 	}
 
-	public void changeThatCausedTestsToFail(int indexOfChange, String valueChangedFrom, String valueChangedTo) 
-      throws SourceChangeException {
+	public void changeThatCausedTestsToFail(int indexOfChange, String valueChangedFrom, String valueChangedTo) throws SourceChangeException {
 		if (mySourceFileName == null) {
 			throw new SourceChangeException("Cannot report change of file haven't started (internal error1)");
 		}
@@ -77,8 +73,7 @@ public class RealReport implements Report {
 		myTotalNumberOfChangesThatCausedTestsToFail++;
 	}
 
-	public void changeThatDidNotCauseTestsToFail(int indexOfChange, String valueChangedFrom, String valueChangedTo) 
-      throws SourceChangeException {
+	public void changeThatDidNotCauseTestsToFail(int indexOfChange, String valueChangedFrom, String valueChangedTo) throws SourceChangeException {
 		if (mySourceFileName == null) {
 			throw new SourceChangeException("Cannot report change of file haven't started (internal error2)");
 		}
@@ -96,9 +91,7 @@ public class RealReport implements Report {
 	}
 
 	public String toString() {
-		String summary = myTotalNumberOfChangesThatDidNotCauseTestsToFail 
-            + " mutations survived out of " + totalNumberOfChanges() 
-            + " changes. Score = " + totalScore();
+		String summary = myTotalNumberOfChangesThatDidNotCauseTestsToFail + " mutations survived out of " + totalNumberOfChanges() + " changes. Score = " + totalScore();
 		return summary;
 	}
 
@@ -111,11 +104,9 @@ public class RealReport implements Report {
 	}
 
 	private void printFileChanges() {
-        
-		String summary = "For File " + mySourceFileName + ": " 
-            + fileNumberOfChangesThatDidNotCauseTestsToFail() 
-            + " mutations survived out of " + fileNumberOfChanges() 
-            + " changes. Score = " + fileScore();
+
+		String summary = "For File " + mySourceFileName + ": " + fileNumberOfChangesThatDidNotCauseTestsToFail() + " mutations survived out of " + fileNumberOfChanges()
+				+ " changes. Score = " + fileScore();
 
 		Object[] sortedReportItems = sortedReportItems();
 		StringBuffer result = new StringBuffer();
@@ -129,10 +120,9 @@ public class RealReport implements Report {
 	}
 
 	/*
-		* @return a negative integer, zero, or a positive integer as the
-		* 	       first argument is less than, equal to, or greater than the
-		*	       second.
-	*/
+	 * @return a negative integer, zero, or a positive integer as the first
+	 * argument is less than, equal to, or greater than the second.
+	 */
 	private Comparator reportItemComparitor() {
 		return new Comparator() {
 			public int compare(Object o1, Object o2) {

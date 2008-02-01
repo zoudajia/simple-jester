@@ -9,34 +9,33 @@ public class ReportItemTest extends TestCase {
 	public ReportItemTest(String name) {
 		super(name);
 	}
+
 	public static void main(String args[]) {
 		junit.awtui.TestRunner.main(new String[] { "jester.tests.ReportItemTest" });
 	}
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite(ReportItemTest.class);
 		return suite;
 	}
 
 	private ReportItem newReportItem(String originalContents, String from, String to, int indexOfChange) throws ConfigurationException {
-		return new ReportItem("sourceFileName", new IgnoreListDocument(originalContents,new IgnoreList("")), indexOfChange, from, to);
+		return new ReportItem("sourceFileName", new IgnoreListDocument(originalContents, new IgnoreList("")), indexOfChange, from, to);
 	}
+
 	private int lineNumberForCharacterIndex(String originalContents, int indexOfChange) throws ConfigurationException {
 		return newReportItem(originalContents, "from", "to", indexOfChange).lineNumber();
 	}
+
 	public void testXmlEncoding() throws ConfigurationException {
 		String fromSomethingThatNeedsXmlEncoding = "< > & \"";
 		String toSomethingThatNeedsXmlEncoding = fromSomethingThatNeedsXmlEncoding;
-		String expectedXML = "    <ChangeThatDidNotCauseTestsToFail\r\n" + 
-				"      index=\"3\" line=\"1\"\r\n" + 
-				"      from=\"&lt; &gt; &amp; &quot;\" to=\"&lt; &gt; &amp; &quot;\"\r\n" + 
-				"      file=\"sourceFileName\">\r\n" + 
-				"sourceFileName - changed source on line 1 (char index=3) from &lt; > &amp; \" to &lt; > &amp; \"\r\n" + 
-				"ori>>>ginalContents\r\n" + 
-				"    </ChangeThatDidNotCauseTestsToFail>";
+		String expectedXML = "    <ChangeThatDidNotCauseTestsToFail\r\n" + "      index=\"3\" line=\"1\"\r\n"
+				+ "      from=\"&lt; &gt; &amp; &quot;\" to=\"&lt; &gt; &amp; &quot;\"\r\n" + "      file=\"sourceFileName\">\r\n"
+				+ "sourceFileName - changed source on line 1 (char index=3) from &lt; > &amp; \" to &lt; > &amp; \"\r\n" + "ori>>>ginalContents\r\n"
+				+ "    </ChangeThatDidNotCauseTestsToFail>";
 		String actualXML = newReportItem("originalContents", fromSomethingThatNeedsXmlEncoding, toSomethingThatNeedsXmlEncoding, 3).asXML();
-		assertEquals("should encode as XML as appropriate", 
-				Util.withoutWhitespace(expectedXML),
-				Util.withoutWhitespace(actualXML));
+		assertEquals("should encode as XML as appropriate", Util.withoutWhitespace(expectedXML), Util.withoutWhitespace(actualXML));
 	}
 
 	public void testLineNumberOneLine() throws SourceChangeException {
