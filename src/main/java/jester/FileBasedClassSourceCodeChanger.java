@@ -12,8 +12,7 @@ public class FileBasedClassSourceCodeChanger implements ClassSourceCodeChanger {
 
 	private Report myReport;
 
-	public FileBasedClassSourceCodeChanger(Configuration configuration, String sourceFileName, Report aReport) {
-		super();
+	public FileBasedClassSourceCodeChanger(String sourceFileName, Report aReport) {
 		this.sourceFileName = sourceFileName;
 		myReport = aReport;
 	}

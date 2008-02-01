@@ -33,7 +33,7 @@ public class FileBasedClassIterator implements ClassIterator {
 		FileVisitor classTestVisitorWrapper = new FileVisitor() {
 			public void visit(String fileName) throws SourceChangeException {
 				if (fileName.endsWith(myConfiguration.sourceFileExtension())) {
-					ClassSourceCodeChanger sourceCodeSystem = new FileBasedClassSourceCodeChanger(myConfiguration, fileName, myReport);
+					ClassSourceCodeChanger sourceCodeSystem = new FileBasedClassSourceCodeChanger(fileName, myReport);
 					visitor.testUsing(sourceCodeSystem);
 				}
 			}
