@@ -22,7 +22,7 @@ public class RealClassTestTester implements ClassTestTester {
 			madeChange = codeMangler.makeChangeToClass();
 		}
 	}
-	
+
 	public void testUsing(final ClassSourceCodeChanger sourceCodeSystem) throws SourceChangeException {
 		sourceCodeSystem.startJesting();
 

@@ -27,7 +27,7 @@ public class Util {
 			if (firstLine) {
 				System.out.println("ERR> NOTE - jester has tried to 'exec' \"" + commandLine + "\"");
 			}
-            // XXX see bug 1346212
+			// XXX see bug 1346212
 			firstLine = false;
 			System.out.println("ERR> " + str);
 		}
@@ -43,7 +43,7 @@ public class Util {
 
 		return output;
 	}
-	
+
 	public static String readFile(String fileName) throws IOException {
 		Reader reader = new FileReader(fileName);
 		try {
@@ -52,7 +52,7 @@ public class Util {
 			reader.close();
 		}
 	}
-	
+
 	private static String readContents(Reader reader) throws IOException {
 		StringBuffer buff = new StringBuffer();
 
@@ -67,25 +67,25 @@ public class Util {
 
 		return buff.toString();
 	}
-	
-	//TODO: how are you supposed to do this?
+
+	// TODO: how are you supposed to do this?
 	private static String readContentsIgnoringCarrageReturns(Reader reader) throws IOException {
 		StringBuffer buff = new StringBuffer();
 		BufferedReader lineReader = new BufferedReader(reader);
 
 		String line = lineReader.readLine();
 		while (line != null) {
-			buff.append(line+"\n");
+			buff.append(line + "\n");
 			line = lineReader.readLine();
 		}
 
 		return buff.toString();
 	}
-	
+
 	public static String readFileOnClassPath(String fileName) throws IOException {
 		InputStream fileInputStream = ClassLoader.getSystemResourceAsStream(fileName);
-		if (fileInputStream==null){
-			throw new FileNotFoundException("Could not find "+fileName+" on the classpath");
+		if (fileInputStream == null) {
+			throw new FileNotFoundException("Could not find " + fileName + " on the classpath");
 		}
 		return readContentsIgnoringCarrageReturns(new InputStreamReader(fileInputStream));
 	}

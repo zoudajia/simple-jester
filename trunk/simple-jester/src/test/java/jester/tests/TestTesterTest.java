@@ -7,13 +7,16 @@ public class TestTesterTest extends TestCase {
 	public TestTesterTest(String name) {
 		super(name);
 	}
+
 	public static void main(String args[]) {
 		junit.awtui.TestRunner.main(new String[] { "jester.tests.TestTesterTest" });
 	}
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite(TestTesterTest.class);
 		return suite;
 	}
+
 	public void testTestsMustStartOffWorking() {
 		MockTestRunner mockTestRunner = new MockTestRunner();
 		mockTestRunner.setTestsRunWithoutFailures(false);
@@ -26,6 +29,7 @@ public class TestTesterTest extends TestCase {
 		} catch (SourceChangeException ex) {
 		}
 	}
+
 	public void testThatTestRunByIterator() throws SourceChangeException {
 		MockTestRunner mockTestRunner = new MockTestRunner();
 		mockTestRunner.setTestsRunWithoutFailures(true);

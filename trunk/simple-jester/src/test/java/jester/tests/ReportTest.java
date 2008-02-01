@@ -12,9 +12,11 @@ public class ReportTest extends TestCase {
 	public ReportTest(String name) {
 		super(name);
 	}
+
 	public static void main(String args[]) {
 		junit.awtui.TestRunner.main(new String[] { "jester.tests.ReportTest" });
 	}
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite(ReportTest.class);
 		return suite;
@@ -27,9 +29,9 @@ public class ReportTest extends TestCase {
 	private Report newRealReport(PrintWriter aPrintWriter) {
 		return new RealReport(new TestConfiguration(), aPrintWriter, myXMLWriter, new MockProgressReporter());
 	}
-	
-	private void startFile(Report aReport, String fileName, String originalContents) throws ConfigurationException, SourceChangeException{
-		aReport.startFile(fileName, new IgnoreListDocument(originalContents,new IgnoreList("")));
+
+	private void startFile(Report aReport, String fileName, String originalContents) throws ConfigurationException, SourceChangeException {
+		aReport.startFile(fileName, new IgnoreListDocument(originalContents, new IgnoreList("")));
 	}
 
 	public void testBottomScore() throws SourceChangeException {

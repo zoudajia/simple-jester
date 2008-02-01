@@ -8,11 +8,11 @@ public class MockConfiguration implements Configuration {
 
 	private String myCompilationCommand = "javac";
 	private Logger logger = new RealLogger();
-	
+
 	public void setCompilationCommand(String cmd) {
 		myCompilationCommand = cmd;
 	}
-	
+
 	public String compilationCommand() {
 		return myCompilationCommand;
 	}
@@ -40,7 +40,7 @@ public class MockConfiguration implements Configuration {
 	public String xmlReportFileName() {
 		return "jesterReport.xml";
 	}
-	
+
 	public boolean closeUIOnFinish() {
 		return false;
 	}

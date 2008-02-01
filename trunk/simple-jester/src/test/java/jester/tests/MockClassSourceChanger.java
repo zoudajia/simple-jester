@@ -21,9 +21,11 @@ public class MockClassSourceChanger implements ClassSourceCodeChanger {
 	private int expectedReportLastChangeCalls = 0;
 	private int expectedLastChangeCausedTestsToFailCalls = 0;
 	private int actualLastChangeCausedTestsToFailCalls = 0;
+
 	public MockClassSourceChanger() {
 		super();
 	}
+
 	public IgnoreListDocument getOriginalContents() {
 		return originalContents;
 	}
@@ -31,26 +33,33 @@ public class MockClassSourceChanger implements ClassSourceCodeChanger {
 	public void setExpectedLastChangeCausedTestsToFailCalls(int calls) {
 		expectedLastChangeCausedTestsToFailCalls = calls;
 	}
+
 	public void setExpectedLastChangeDidNotCauseTestsToFailCalls(int calls) {
 		expectedReportLastChangeCalls = calls;
 	}
+
 	public void setExpectedWriteOriginalBackCalls(int calls) {
 		expectedWriteOriginalBackCalls = calls;
 	}
+
 	public void setExpectedWriteOverSourceReplacing(int index, String oldContents, String newContents) {
 		expectedIndex = index;
 		expectedOldContents = oldContents;
 		expectedNewContents = newContents;
 	}
+
 	public void setExpectedWriteOverSourceReplacingCalls(int calls) {
 		expectedWriteOverSourceReplacingCalls = calls;
 	}
+
 	public void setOriginalContents(IgnoreListDocument contents) {
 		originalContents = contents;
 	}
-	public void setOriginalContents(String contents){
+
+	public void setOriginalContents(String contents) {
 		setOriginalContents(contents, new IgnoreList(""));
 	}
+
 	public void setOriginalContents(String contents, IgnoreList anIgnoreList) {
 		try {
 			originalContents = new IgnoreListDocument(contents, anIgnoreList);
@@ -58,9 +67,11 @@ public class MockClassSourceChanger implements ClassSourceCodeChanger {
 			throw new RuntimeException("test setup failed doing MockClassSourceChanger.setOriginalContents");
 		}
 	}
+
 	public void setThrowExceptionOnFirstChangeAttempt(boolean throwExceptionOnFirstChangeAttempt) {
 		this.throwExceptionOnFirstChangeAttempt = throwExceptionOnFirstChangeAttempt;
 	}
+
 	public void verify() {
 		Assert.assertEquals("WriteOverSourceReplacingCalls", expectedWriteOverSourceReplacingCalls, actualWriteOverSourceReplacingCalls);
 		Assert.assertEquals("WriteOriginalBackCalls", expectedWriteOriginalBackCalls, actualWriteOriginalBackCalls);
@@ -69,9 +80,11 @@ public class MockClassSourceChanger implements ClassSourceCodeChanger {
 		Assert.assertEquals("StartJestingCalls", expectedStartJestingCalls, actualStartJestingCalls);
 		Assert.assertEquals("FinishJestingCalls", expectedFinishJestingCalls, actualFinishJestingCalls);
 	}
+
 	public void writeOriginalContentsBack() {
 		actualWriteOriginalBackCalls++;
 	}
+
 	public void writeOverSourceReplacing(int index, String oldContents, String newContents) throws SourceChangeException {
 		actualWriteOverSourceReplacingCalls++;
 		if (throwExceptionOnFirstChangeAttempt) {

@@ -7,13 +7,16 @@ public class SimpleIntCodeManglerTest extends TestCase {
 	public SimpleIntCodeManglerTest(String name) {
 		super(name);
 	}
+
 	public static void main(String args[]) {
 		junit.awtui.TestRunner.main(new String[] { "jester.tests.SimpleIntCodeManglerTest" });
 	}
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite(SimpleIntCodeManglerTest.class);
 		return suite;
 	}
+
 	public void testContinuesIfChangeFails() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setThrowExceptionOnFirstChangeAttempt(true);
@@ -21,7 +24,11 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		CodeMangler codeMangler = new SimpleIntCodeMangler(mockClassSourceChanger);
 
-		mockClassSourceChanger.setExpectedWriteOverSourceReplacingCalls(2); //first one values are ignored
+		mockClassSourceChanger.setExpectedWriteOverSourceReplacingCalls(2); // first
+																			// one
+																			// values
+																			// are
+																			// ignored
 		mockClassSourceChanger.setExpectedWriteOverSourceReplacing("abc 3 jshf ".length(), "8", "9");
 		assertTrue("could make change of 8 to 9 (can't change 3 to 4)", codeMangler.makeChangeToClass());
 		mockClassSourceChanger.setExpectedWriteOriginalBackCalls(1);
@@ -29,6 +36,7 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		mockClassSourceChanger.verify();
 	}
+
 	public void testContinuesIfChangeSucceeds() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setThrowExceptionOnFirstChangeAttempt(false);
@@ -46,6 +54,7 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		mockClassSourceChanger.verify();
 	}
+
 	public void testCouldntMangle() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setOriginalContents("abc def");
@@ -57,6 +66,7 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		mockClassSourceChanger.verify();
 	}
+
 	public void testDoesntTryToChangeBadlyNamedMethodCalls() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setOriginalContents("abc method3 def");
@@ -68,6 +78,7 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		mockClassSourceChanger.verify();
 	}
+
 	public void testSimpleMangle() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setOriginalContents("abc 1 def");
@@ -77,6 +88,7 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		assertTrue("could make change - mock checks make expected change", codeMangler.makeChangeToClass());
 	}
+
 	public void testBug955882() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setOriginalContents("int Log2(float n) { return Log(2,n); }");
@@ -86,6 +98,7 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		assertTrue("could make change - mock checks make expected change", codeMangler.makeChangeToClass());
 	}
+
 	public void testBugIgnoreRegionsNotBeingIgnored() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setOriginalContents("foo //1\n 1 bar", new IgnoreList("x//x\\n"));
@@ -95,6 +108,7 @@ public class SimpleIntCodeManglerTest extends TestCase {
 
 		assertTrue("could make change - mock checks make expected change", codeMangler.makeChangeToClass());
 	}
+
 	public void testSimpleMangleRollover() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setOriginalContents("abc 9 def");

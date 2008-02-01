@@ -10,13 +10,15 @@ import junit.framework.*;
 
 public class MutationsListTest extends TestCase {
 	private static PrintStream NullErrorStream = new PrintStream(new ByteArrayOutputStream());
-	
+
 	public MutationsListTest(String name) {
 		super(name);
 	}
+
 	public static void main(String args[]) {
 		junit.awtui.TestRunner.main(new String[] { "jester.tests.MutationsListTest" });
 	}
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite(MutationsListTest.class);
 		return suite;
@@ -34,7 +36,18 @@ public class MutationsListTest extends TestCase {
 		aMockMutationMaker.addExpectedMutateValues("==", "!=");
 		aMockMutationMaker.addExpectedMutateValues("!=", "==");
 
-		MutationsList aMutationsList = new RealMutationsList("there must be no file called this", NullErrorStream); //there is no file called "there must be no file called this"
+		MutationsList aMutationsList = new RealMutationsList("there must be no file called this", NullErrorStream); // there
+																													// is
+																													// no
+																													// file
+																													// called
+																													// "there
+																													// must
+																													// be
+																													// no
+																													// file
+																													// called
+																													// this"
 		aMutationsList.visit(aMockMutationMaker);
 
 		aMockMutationMaker.verify();
@@ -43,8 +56,7 @@ public class MutationsListTest extends TestCase {
 	public void testReadMutations() throws Exception {
 		char delimiter1 = '@';
 		char delimiter2 = 'X';
-		String readString = delimiter1 + "xyz" + delimiter1 + "a b c" + "\n" + 
-							delimiter2 + "1" + delimiter2 + "2";
+		String readString = delimiter1 + "xyz" + delimiter1 + "a b c" + "\n" + delimiter2 + "1" + delimiter2 + "2";
 		StringReader aStringReader = new StringReader(readString);
 
 		MockMutationMaker aMockMutationMaker = new MockMutationMaker();
@@ -61,10 +73,15 @@ public class MutationsListTest extends TestCase {
 	public void testReadMutationsIgnoreBogusLinesIncludingBlankOnes() throws Exception {
 		char delimiter1 = '@';
 		char delimiter2 = 'X';
-		String readString = delimiter1 + "xyz" + delimiter1 + "\n" + //bogus line
-							delimiter2 + "1" + delimiter2 + "2" + delimiter2 + "3" + "\n" + //will ignore too many
-							"\n" + //will ignore blank lines
-							delimiter2 + "a" + delimiter2 + "b" + delimiter2; //valid line
+		String readString = delimiter1 + "xyz" + delimiter1 + "\n" + // bogus
+																		// line
+				delimiter2 + "1" + delimiter2 + "2" + delimiter2 + "3" + "\n" + // will
+																				// ignore
+																				// too
+																				// many
+				"\n" + // will ignore blank lines
+				delimiter2 + "a" + delimiter2 + "b" + delimiter2; // valid
+																	// line
 		StringReader aStringReader = new StringReader(readString);
 
 		MockMutationMaker aMockMutationMaker = new MockMutationMaker();
