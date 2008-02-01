@@ -13,15 +13,6 @@ public class ReportTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.ReportTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(ReportTest.class);
-		return suite;
-	}
-
 	private Report newRealReport() {
 		return newRealReport(new PrintWriter(new StringWriter()));
 	}

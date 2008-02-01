@@ -8,15 +8,6 @@ public class TestTesterTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.TestTesterTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(TestTesterTest.class);
-		return suite;
-	}
-
 	public void testTestsMustStartOffWorking() {
 		MockTestRunner mockTestRunner = new MockTestRunner();
 		mockTestRunner.setTestsRunWithoutFailures(false);

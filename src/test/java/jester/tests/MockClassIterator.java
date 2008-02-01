@@ -9,10 +9,6 @@ public class MockClassIterator implements ClassIterator {
 
 	private ClassTestTester expectedClassTestTester;
 
-	public MockClassIterator() {
-		super();
-	}
-
 	public void setExpectedIterate(ClassTestTester classTestTester) {
 		expectedClassTestTester = classTestTester;
 	}

@@ -8,15 +8,6 @@ public class ClassTestTesterTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.ClassTestTesterTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(ClassTestTesterTest.class);
-		return suite;
-	}
-
 	public void testThatChangeThatFailsTestsIsNotRecorded() throws SourceChangeException {
 		MockTestRunner mockTestRunner = new MockTestRunner();
 		mockTestRunner.setTestsRunWithoutFailures(false);

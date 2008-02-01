@@ -22,10 +22,6 @@ public class MockClassSourceChanger implements ClassSourceCodeChanger {
 	private int expectedLastChangeCausedTestsToFailCalls = 0;
 	private int actualLastChangeCausedTestsToFailCalls = 0;
 
-	public MockClassSourceChanger() {
-		super();
-	}
-
 	public IgnoreListDocument getOriginalContents() {
 		return originalContents;
 	}

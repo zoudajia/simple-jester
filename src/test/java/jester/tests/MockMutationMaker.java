@@ -10,13 +10,6 @@ public class MockMutationMaker implements MutationMaker {
 	private ExpectationList myMutateParameter0Values = new ExpectationList("jester.MutationMaker MutateParameter0Values");
 	private ExpectationList myMutateParameter1Values = new ExpectationList("jester.MutationMaker MutateParameter1Values");
 
-	/**
-	 * MockMutationMaker constructor comment.
-	 */
-	public MockMutationMaker() {
-		super();
-	}
-
 	public void addExpectedMutateValues(String arg0, String arg1) {
 		myMutateParameter0Values.addExpected(arg0);
 		myMutateParameter1Values.addExpected(arg1);

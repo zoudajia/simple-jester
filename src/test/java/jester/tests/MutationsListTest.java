@@ -15,15 +15,6 @@ public class MutationsListTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.MutationsListTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(MutationsListTest.class);
-		return suite;
-	}
-
 	public void testDefaults() throws Exception {
 		MockMutationMaker aMockMutationMaker = new MockMutationMaker();
 

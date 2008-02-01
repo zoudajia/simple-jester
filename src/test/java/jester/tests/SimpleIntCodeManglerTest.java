@@ -8,15 +8,6 @@ public class SimpleIntCodeManglerTest extends TestCase {
 		super(name);
 	}
 
-	public static void main(String args[]) {
-		junit.awtui.TestRunner.main(new String[] { "jester.tests.SimpleIntCodeManglerTest" });
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(SimpleIntCodeManglerTest.class);
-		return suite;
-	}
-
 	public void testContinuesIfChangeFails() throws SourceChangeException {
 		MockClassSourceChanger mockClassSourceChanger = new MockClassSourceChanger();
 		mockClassSourceChanger.setThrowExceptionOnFirstChangeAttempt(true);

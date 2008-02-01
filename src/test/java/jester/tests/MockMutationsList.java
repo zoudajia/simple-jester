@@ -10,13 +10,6 @@ public class MockMutationsList implements MutationsList {
 	private ExpectationCounter myVisitCalls = new ExpectationCounter("jester.MutationsList VisitCalls");
 	private ExpectationList myVisitParameter0Values = new ExpectationList("jester.MutationsList VisitParameter0Values");
 
-	/**
-	 * MockMutationsList constructor comment.
-	 */
-	public MockMutationsList() {
-		super();
-	}
-
 	public void addExpectedVisitValues(MutationMaker arg0) {
 		myVisitParameter0Values.addExpected(arg0);
 	}
