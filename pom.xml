@@ -8,6 +8,21 @@
   <name>simple-jester</name>
   <url>http://jester.sourceforge.net</url>
   
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>jester.TestTester</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
