@@ -11,13 +11,17 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 public class TestTesterTest extends TestCase {
+	private Mockery context = new Mockery();
+	
 	public TestTesterTest(String name) {
 		super(name);
 	}
 
-	public void testTestsMustStartOffWorking() {
-		MockTestRunner mockTestRunner = new MockTestRunner();
-		mockTestRunner.setTestsRunWithoutFailures(false);
+	public void testTestsMustStartOffWorking() throws SourceChangeException {
+		final TestRunner mockTestRunner = context.mock(TestRunner.class);
+		context.checking(new Expectations(){{
+			one(mockTestRunner).testsRunWithoutFailures(); will(returnValue(false));
+		}});
 
 		TestTester testTester = new TestTester(mockTestRunner, null, null);
 
@@ -29,7 +33,6 @@ public class TestTesterTest extends TestCase {
 	}
 
 	public void testThatTestRunByIterator() throws SourceChangeException {
-		Mockery context = new Mockery();
 		final TestRunner mockTestRunner = context.mock(TestRunner.class);
 		final ClassTestTester mockClassTestTester = context.mock(ClassTestTester.class);
 		final ClassIterator mockClassIterator = context.mock(ClassIterator.class);
