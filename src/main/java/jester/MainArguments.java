@@ -31,7 +31,7 @@ public class MainArguments {
 	}
 
 	public String[] getDirectoryOrFileNames() {
-		return (String[]) directoryOrFileNames.toArray(new String[directoryOrFileNames.size()]);
+		return directoryOrFileNames.toArray(new String[directoryOrFileNames.size()]);
 	}
 
 	public String getBuildRunningCommand() {
