@@ -126,9 +126,7 @@ public class RealReport implements Report {
 	private Comparator<ReportItem> reportItemComparitor() {
 		return new Comparator<ReportItem>() {
 			public int compare(ReportItem o1, ReportItem o2) {
-				ReportItem ri1 = o1;
-				ReportItem ri2 = o2;
-				return ri1.compareToReportItem(ri2);
+				return o1.compareToReportItem(o2);
 			}
 		};
 	}
