@@ -1,5 +1,6 @@
 package jester;
 
+@SuppressWarnings("serial")
 public class SourceChangeException extends Exception {
 
 	public SourceChangeException(String message) {

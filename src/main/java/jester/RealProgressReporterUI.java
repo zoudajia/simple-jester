@@ -10,6 +10,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class RealProgressReporterUI extends JFrame {
 
 	JProgressBar fProgressBar;
