@@ -1,6 +1,10 @@
 package jester.tests;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+
 import jester.ClassTestTester;
+import jester.MutationMaker;
 import jester.MutationsList;
 import jester.RealClassTestTester;
 import jester.SourceChangeException;
@@ -8,6 +12,8 @@ import jester.TestRunner;
 import junit.framework.TestCase;
 
 public class ClassTestTesterTest extends TestCase {
+	private Mockery context = new Mockery();
+
 	public ClassTestTesterTest(String name) {
 		super(name);
 	}
@@ -97,9 +103,12 @@ public class ClassTestTesterTest extends TestCase {
 		mockClassSourceCodeChanger.verify();
 	}
 
-	private ClassTestTester newRealClassTestTester(TestRunner aTestRunner) {
-		MutationsList aMutationsList = new MockMutationsList();
-		return new RealClassTestTester(aTestRunner, aMutationsList);
+	private ClassTestTester newRealClassTestTester(TestRunner aTestRunner) throws SourceChangeException {
+		final MutationsList mockMutationsList = context.mock(MutationsList.class);
+		context.checking(new Expectations(){{
+			allowing(mockMutationsList).visit(with(any(MutationMaker.class)));
+		}});
+		return new RealClassTestTester(aTestRunner, mockMutationsList);
 	}
 
 	public void testThatMutationListIsUsed() throws SourceChangeException {
@@ -108,13 +117,15 @@ public class ClassTestTesterTest extends TestCase {
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
 		mockClassSourceCodeChanger.setOriginalContents("includes nothing that will be changed");
 
-		MockMutationsList aMockMutationsList = new MockMutationsList();
-		aMockMutationsList.setExpectedVisitCalls(1);
+		final MutationsList mockMutationsList = context.mock(MutationsList.class);
+		context.checking(new Expectations(){{
+			one(mockMutationsList).visit(with(any(MutationMaker.class)));
+		}});
 
-		ClassTestTester classTestTester = new RealClassTestTester(mockTestRunner, aMockMutationsList);
+		ClassTestTester classTestTester = new RealClassTestTester(mockTestRunner, mockMutationsList);
 
 		classTestTester.testUsing(mockClassSourceCodeChanger);
 
-		aMockMutationsList.verify();
+		context.assertIsSatisfied();
 	}
 }
