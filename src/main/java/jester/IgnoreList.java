@@ -11,8 +11,8 @@ public class IgnoreList {
 		contents = ignoreFileContents;
 	}
 
-	public List ignorePairs() throws ConfigurationException {
-		List result = new ArrayList();
+	public List<IgnorePair> ignorePairs() throws ConfigurationException {
+		List<IgnorePair> result = new ArrayList<IgnorePair>();
 		String[] lines = contents.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];

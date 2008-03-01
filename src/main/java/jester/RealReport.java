@@ -8,13 +8,12 @@ import java.util.List;
 import java.util.Vector;
 
 public class RealReport implements Report {
-
 	private Configuration myConfiguration;
 	private PrintWriter myOutput;
 	private int myTotalNumberOfChangesThatCausedTestsToFail = 0;
 	private int myTotalNumberOfChangesThatDidNotCauseTestsToFail = 0;
 
-	private List myFileChangesThatDidNotCauseTestsToFail = new Vector();
+	private List<ReportItem> myFileChangesThatDidNotCauseTestsToFail = new Vector<ReportItem>();
 	private int myNumberOfFileChangesThatCausedTestsToFail = 0;
 	private IgnoreListDocument myOriginalContents;
 	private String mySourceFileName;
@@ -49,7 +48,7 @@ public class RealReport implements Report {
 			throw new SourceChangeException("Cannot start a file until finished previous one (tried to start " + sourceFileName + " when already doing " + mySourceFileName + ")");
 		}
 		myNumberOfFileChangesThatCausedTestsToFail = 0;
-		myFileChangesThatDidNotCauseTestsToFail = new Vector();
+		myFileChangesThatDidNotCauseTestsToFail = new Vector<ReportItem>();
 		mySourceFileName = sourceFileName;
 		myOriginalContents = originalContents;
 	}

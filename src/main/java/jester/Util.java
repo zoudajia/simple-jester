@@ -17,7 +17,7 @@ public class Util {
 		BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 		BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
-		Vector output = new Vector();
+		Vector<String> output = new Vector<String>();
 		String str;
 		while ((str = br.readLine()) != null) {
 			output.addElement(str);

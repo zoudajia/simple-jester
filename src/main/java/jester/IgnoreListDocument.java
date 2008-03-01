@@ -11,7 +11,7 @@ public class IgnoreListDocument {
 	public static final String FILE_NAME = "ignorelist.cfg";
 	private IgnoreList ignoreList;
 	private String source;
-	private List ignoreRegions = new ArrayList();
+	private List<IgnoreRegion> ignoreRegions = new ArrayList<IgnoreRegion>();
 
 	public IgnoreListDocument(String source, IgnoreList ignoreList) throws ConfigurationException {
 		this.ignoreList = ignoreList;
@@ -20,7 +20,6 @@ public class IgnoreListDocument {
 	}
 
 	public String toString() {
-
 		StringBuffer result = new StringBuffer();
 		result.append("IgnoreListDocument");
 		if (ignoreRegions.size() > 0) {
@@ -31,7 +30,6 @@ public class IgnoreListDocument {
 			result.append(ignoreRegion.within(source) + "\n");
 		}
 		return result.toString();
-
 	}
 
 	public int length() {
