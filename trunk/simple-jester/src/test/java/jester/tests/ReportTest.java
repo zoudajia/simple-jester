@@ -38,7 +38,7 @@ public class ReportTest extends TestCase {
 			allowing(mockProgressReporter).progress();
 			allowing(mockXMLReportWriter).writeXMLReport(with(any(ReportItem[].class)), with(any(String.class)), with(any(int.class)), with(any(int.class)), with(any(int.class)));
 		}});
-		return new RealReport(new TestConfiguration(), aPrintWriter, mockXMLReportWriter, mockProgressReporter);
+		return new RealReport(new ConfigurationForTestingPurposes(), aPrintWriter, mockXMLReportWriter, mockProgressReporter);
 	}
 
 	private void startFile(Report aReport, String fileName, String originalContents) throws ConfigurationException, SourceChangeException {

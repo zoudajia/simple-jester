@@ -3,7 +3,7 @@ package jester.tests;
 import jester.Configuration;
 import jester.Logger;
 
-public class TestConfiguration implements Configuration {
+public class ConfigurationForTestingPurposes implements Configuration {
 	public boolean shouldReportEagerly() {
 		return false;
 	}

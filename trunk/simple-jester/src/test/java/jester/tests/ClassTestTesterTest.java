@@ -1,24 +1,21 @@
 package jester.tests;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-
 import jester.ClassTestTester;
 import jester.MutationMaker;
 import jester.MutationsList;
 import jester.RealClassTestTester;
 import jester.SourceChangeException;
 import jester.TestRunner;
-import junit.framework.TestCase;
 
-public class ClassTestTesterTest extends TestCase {
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.junit.Test;
+
+public class ClassTestTesterTest {
 	private Mockery context = new Mockery();
 
-	public ClassTestTesterTest(String name) {
-		super(name);
-	}
-
-	public void testThatChangeThatFailsTestsIsNotRecorded() throws SourceChangeException {
+	@Test 
+	public void changeThatFailsTestsIsNotRecorded() throws SourceChangeException {
 		final TestRunner mockTestRunner = context.mock(TestRunner.class);
 		context.checking(new Expectations(){{
 			one(mockTestRunner).testsRunWithoutFailures(); will(returnValue(false));
@@ -42,7 +39,8 @@ public class ClassTestTesterTest extends TestCase {
 		mockClassSourceCodeChanger.verify();
 	}
 
-	public void testThatChangeThatPassesTestsIsRecorded() throws SourceChangeException {
+	@Test 
+	public void changeThatPassesTestsIsRecorded() throws SourceChangeException {
 		final TestRunner mockTestRunner = context.mock(TestRunner.class);
 		context.checking(new Expectations(){{
 			one(mockTestRunner).testsRunWithoutFailures(); will(returnValue(true));
@@ -66,7 +64,8 @@ public class ClassTestTesterTest extends TestCase {
 		mockClassSourceCodeChanger.verify();
 	}
 
-	public void testThatOriginalContentsAreNotWrittenBackIfNoChanges() throws SourceChangeException {
+	@Test 
+	public void originalContentsAreNotWrittenBackIfNoChanges() throws SourceChangeException {
 		final TestRunner mockTestRunner = null;
 
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
@@ -86,7 +85,8 @@ public class ClassTestTesterTest extends TestCase {
 		mockClassSourceCodeChanger.verify();
 	}
 
-	public void testThatOriginalContentsAreWrittenBack() throws SourceChangeException {
+	@Test 
+	public void originalContentsAreWrittenBack() throws SourceChangeException {
 		final TestRunner mockTestRunner = context.mock(TestRunner.class);
 		context.checking(new Expectations(){{
 			one(mockTestRunner).testsRunWithoutFailures(); will(returnValue(false));
@@ -118,7 +118,8 @@ public class ClassTestTesterTest extends TestCase {
 		return new RealClassTestTester(aTestRunner, mockMutationsList);
 	}
 
-	public void testThatMutationListIsUsed() throws SourceChangeException {
+	@Test 
+	public void mutationListIsUsed() throws SourceChangeException {
 		final TestRunner mockTestRunner = null;
 
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
