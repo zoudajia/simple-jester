@@ -21,7 +21,7 @@ public class XMLReportWriterTest extends TestCase {
 		Writer aWriter = new StringWriter();
 		XMLReportWriter aXMLReportWriter = new RealXMLReportWriter(aWriter);
 		String relativePathSourceFileName = "sFile";
-		Object[] reportItems = new ReportItem[2];
+		ReportItem[] reportItems = new ReportItem[2];
 		IgnoreListDocument originalContents = new IgnoreListDocument("once upon a time, in a land far far away ...", new IgnoreList(""));
 		reportItems[0] = new ReportItem(relativePathSourceFileName, originalContents, 12, "time", "banana &&");
 		reportItems[1] = new ReportItem(relativePathSourceFileName, originalContents, 23, "land", "carrot < cake > biscuit");

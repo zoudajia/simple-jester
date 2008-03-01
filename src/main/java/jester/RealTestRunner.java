@@ -1,7 +1,6 @@
 package jester;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Vector;
 
 public class RealTestRunner implements TestRunner {
@@ -14,7 +13,7 @@ public class RealTestRunner implements TestRunner {
 
 	public boolean testsRunWithoutFailures() throws SourceChangeException {
 		try {
-			Vector output = Util.runCommand(myBuildRunningCommand, myConfiguration.getLogger());
+			Vector<String> output = Util.runCommand(myBuildRunningCommand, myConfiguration.getLogger());
 			boolean passed = contains(output, myConfiguration.buildPassString());
 			return passed;
 		} catch (IOException e) {
@@ -22,9 +21,8 @@ public class RealTestRunner implements TestRunner {
 		}
 	}
 
-	private boolean contains(Vector output, String string) {
-		for (Iterator iter = output.iterator(); iter.hasNext();) {
-			String element = (String) iter.next();
+	private boolean contains(Vector<String> output, String string) {
+		for (String element : output) {
 			if (element.contains(string)) {
 				return true;
 			}

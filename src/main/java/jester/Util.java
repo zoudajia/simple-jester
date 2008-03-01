@@ -10,7 +10,7 @@ import java.io.Reader;
 import java.util.Vector;
 
 public class Util {
-	public static Vector runCommand(String commandLine, Logger aLogger) throws IOException {
+	public static Vector<String> runCommand(String commandLine, Logger aLogger) throws IOException {
 		aLogger.log("Trying to run command \"" + commandLine + "\"");
 		Process proc = Runtime.getRuntime().exec(commandLine);
 

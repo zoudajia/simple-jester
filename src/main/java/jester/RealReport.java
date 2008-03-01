@@ -106,7 +106,6 @@ public class RealReport implements Report {
 	}
 
 	private void printFileChanges() {
-
 		String summary = "For File " + mySourceFileName + ": " + fileNumberOfChangesThatDidNotCauseTestsToFail() + " mutations survived out of " + fileNumberOfChanges()
 				+ " changes. Score = " + fileScore();
 
@@ -115,7 +114,6 @@ public class RealReport implements Report {
 		result.append(summary + "\n");
 		for (int i = 0; i < sortedReportItems.length; i++) {
 			result.append(sortedReportItems[i] + "\n");
-
 		}
 		myOutput.println(result.toString());
 		myOutput.flush();
@@ -155,7 +153,7 @@ public class RealReport implements Report {
 		return myFileChangesThatDidNotCauseTestsToFail.size();
 	}
 
-	private Object[] sortedReportItems() {
+	private ReportItem[] sortedReportItems() {
 		ReportItem[] result = myFileChangesThatDidNotCauseTestsToFail.toArray(new ReportItem[0]);
 		Arrays.sort(result, reportItemComparitor());
 		return result;

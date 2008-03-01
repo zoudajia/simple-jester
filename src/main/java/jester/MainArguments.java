@@ -27,7 +27,7 @@ public class MainArguments {
 		out.println("java jester.TestTester <BuildRunningCommand> <sourceDirOrFile> <sourceDirOrFile> ...");
 		out.println("example usage: java jester.TestTester \"ant\" com/xpdeveloper/server");
 		out.println("for FAQ see http://jester.sourceforge.net");
-		out.println("Copyright (2000-2007) Ivan Moore. Read the license.");
+		out.println("Copyright (2000-2008) Ivan Moore. Read the license.");
 	}
 
 	public String[] getDirectoryOrFileNames() {
@@ -72,11 +72,11 @@ public class MainArguments {
 		}
 	}
 
-	private void setBuildRunningCommandFromArguments(List normalArgs) throws JesterArgumentException {
+	private void setBuildRunningCommandFromArguments(List<String> normalArgs) throws JesterArgumentException {
 		if (normalArgs.size() == 0) {
 			throw new JesterArgumentException("Missing Build Running Command Argument");
 		}
-		buildRunningCommand = (String) normalArgs.get(0);
+		buildRunningCommand = normalArgs.get(0);
 	}
 
 	private void setDirectoriesOrFilesToMutateFromArguments(List<String> normalArgs) throws JesterArgumentException {
@@ -88,9 +88,8 @@ public class MainArguments {
 		directoryOrFileNames.remove(0);
 	}
 
-	private void setOptionalShouldShowProgressDialogFromArguments(List optionalArgs) {
-		for (Iterator args = optionalArgs.iterator(); args.hasNext();) {
-			String arg = (String) args.next();
+	private void setOptionalShouldShowProgressDialogFromArguments(List<String> optionalArgs) {
+		for (String arg : optionalArgs) {
 			if (arg.startsWith(SHOW_PROGRESS_DIALOG_OPTION_START)) {
 				shouldShowProgressDialog = false;
 				return;
