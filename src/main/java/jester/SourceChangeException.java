@@ -2,10 +2,6 @@ package jester;
 
 public class SourceChangeException extends Exception {
 
-	public SourceChangeException() {
-		super();
-	}
-
 	public SourceChangeException(String message) {
 		super(message);
 	}
@@ -13,5 +9,4 @@ public class SourceChangeException extends Exception {
 	public SourceChangeException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
 }

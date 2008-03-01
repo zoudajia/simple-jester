@@ -5,7 +5,6 @@ public abstract class SimpleCodeMangler implements CodeMangler {
 	private int indexOfLastChange = -1;
 
 	public SimpleCodeMangler(ClassSourceCodeChanger sourceCodeSystem) {
-		super();
 		this.sourceCodeSystem = sourceCodeSystem;
 	}
 
