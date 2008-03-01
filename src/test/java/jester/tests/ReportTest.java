@@ -1,16 +1,21 @@
 package jester.tests;
 
+import java.awt.Color;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import jester.ConfigurationException;
 import jester.IgnoreList;
 import jester.IgnoreListDocument;
+import jester.ProgressReporter;
 import jester.RealReport;
 import jester.Report;
 import jester.SourceChangeException;
 import jester.XMLReportWriter;
 import junit.framework.TestCase;
+
+import org.jmock.Expectations;
+import org.jmock.Mockery;
 
 public class ReportTest extends TestCase {
 	private XMLReportWriter myXMLWriter = new MockXMLReportWriter();
@@ -24,7 +29,15 @@ public class ReportTest extends TestCase {
 	}
 
 	private Report newRealReport(PrintWriter aPrintWriter) {
-		return new RealReport(new TestConfiguration(), aPrintWriter, myXMLWriter, new MockProgressReporter());
+		Mockery context = new Mockery();
+		final ProgressReporter mockProgressReporter = context.mock(ProgressReporter.class);
+		context.checking(new Expectations(){{
+			allowing(mockProgressReporter).setColor(with(any(Color.class)));
+			allowing(mockProgressReporter).setText(with(any(String.class)));
+			allowing(mockProgressReporter).setMaximum(with(any(int.class)));
+			allowing(mockProgressReporter).progress();
+		}});
+		return new RealReport(new TestConfiguration(), aPrintWriter, myXMLWriter, mockProgressReporter);
 	}
 
 	private void startFile(Report aReport, String fileName, String originalContents) throws ConfigurationException, SourceChangeException {
