@@ -14,7 +14,6 @@ public class RealMutationsList implements MutationsList {
 	private PrintStream myErrorStream;
 
 	public RealMutationsList(String fileName, PrintStream errorStream) {
-		super();
 		myFileName = fileName;
 		myErrorStream = errorStream;
 	}

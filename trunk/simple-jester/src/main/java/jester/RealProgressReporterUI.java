@@ -21,7 +21,6 @@ public class RealProgressReporterUI extends JFrame {
 	}
 
 	public RealProgressReporterUI() {
-		super();
 		setupFrame();
 	}
 

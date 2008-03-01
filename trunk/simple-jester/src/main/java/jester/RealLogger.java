@@ -7,10 +7,6 @@ import java.util.Date;
 public class RealLogger implements Logger {
 	public String LOGGER_FILENAME = "jester.log";
 
-	public RealLogger() {
-		super();
-	}
-
 	public void log(String message) {
 		try {
 			FileWriter logFile = new FileWriter(LOGGER_FILENAME, true);

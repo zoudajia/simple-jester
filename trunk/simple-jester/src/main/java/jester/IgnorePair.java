@@ -31,5 +31,4 @@ public class IgnorePair {
 	public String getEnd() {
 		return end;
 	}
-
 }
