@@ -1,9 +1,14 @@
 package jester.tests;
 
+import jester.ClassIterator;
 import jester.ClassTestTester;
 import jester.SourceChangeException;
+import jester.TestRunner;
 import jester.TestTester;
 import junit.framework.TestCase;
+
+import org.jmock.Expectations;
+import org.jmock.Mockery;
 
 public class TestTesterTest extends TestCase {
 	public TestTesterTest(String name) {
@@ -24,19 +29,23 @@ public class TestTesterTest extends TestCase {
 	}
 
 	public void testThatTestRunByIterator() throws SourceChangeException {
-		MockTestRunner mockTestRunner = new MockTestRunner();
-		mockTestRunner.setTestsRunWithoutFailures(true);
+		Mockery context = new Mockery();
+		final TestRunner mockTestRunner = context.mock(TestRunner.class);
+		context.checking(new Expectations() {{
+		    one (mockTestRunner).testsRunWithoutFailures(); will(returnValue(true));
+		}});
 
-		ClassTestTester mockClassTestTester = new MockClassTestTester();
+		final ClassTestTester mockClassTestTester = context.mock(ClassTestTester.class);
 
-		MockClassIterator mockClassIterator = new MockClassIterator();
-		mockClassIterator.setExpectedIterateCalls(1);
-		mockClassIterator.setExpectedIterate(mockClassTestTester);
+		final ClassIterator mockClassIterator = context.mock(ClassIterator.class);
+		context.checking(new Expectations() {{
+		    one (mockClassIterator).iterate(mockClassTestTester);
+		}});
 
 		TestTester testTester = new TestTester(mockTestRunner, mockClassIterator, mockClassTestTester);
 
 		testTester.run();
-
-		mockClassIterator.verify();
+		
+		context.assertIsSatisfied();
 	}
 }
