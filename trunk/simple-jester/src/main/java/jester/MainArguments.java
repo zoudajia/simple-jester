@@ -12,7 +12,7 @@ public class MainArguments {
 	private static final String OPTIONAL_ARGUMENT_START = "-";
 	private static final String SHOW_PROGRESS_DIALOG_OPTION_START = OPTIONAL_ARGUMENT_START + "q";
 
-	private List directoryOrFileNames = null;
+	private List<String> directoryOrFileNames = null;
 	private String buildRunningCommand = null;
 	private FileExistenceChecker aFileExistenceChecker;
 	private boolean shouldShowProgressDialog = true;
@@ -43,8 +43,8 @@ public class MainArguments {
 	}
 
 	private void readArguments(String[] arguments) throws JesterArgumentException {
-		List normalArgs = new ArrayList();
-		List optionalArgs = new ArrayList();
+		List<String> normalArgs = new ArrayList<String>();
+		List<String> optionalArgs = new ArrayList<String>();
 		for (int i = 0; i < arguments.length; i++) {
 			if (arguments[i].trim().startsWith(OPTIONAL_ARGUMENT_START)) {
 				optionalArgs.add(arguments[i]);
@@ -79,11 +79,11 @@ public class MainArguments {
 		buildRunningCommand = (String) normalArgs.get(0);
 	}
 
-	private void setDirectoriesOrFilesToMutateFromArguments(List normalArgs) throws JesterArgumentException {
+	private void setDirectoriesOrFilesToMutateFromArguments(List<String> normalArgs) throws JesterArgumentException {
 		if (normalArgs.size() < 2) {
 			throw new JesterArgumentException("Missing Directories Or Files To Mutate Arguments");
 		}
-		directoryOrFileNames = new ArrayList();
+		directoryOrFileNames = new ArrayList<String>();
 		directoryOrFileNames.addAll(normalArgs);
 		directoryOrFileNames.remove(0);
 	}

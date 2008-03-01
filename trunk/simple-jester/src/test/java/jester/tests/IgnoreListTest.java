@@ -15,14 +15,14 @@ public class IgnoreListTest extends TestCase {
 	}
 
 	public void testReadingEmptyIgnoreValues() throws ConfigurationException {
-		List expectedIgnorePairs = new ArrayList();
+		List<IgnorePair> expectedIgnorePairs = new ArrayList<IgnorePair>();
 		String ignoreFileContents = "";
 		IgnoreList ignoreList = new IgnoreList(ignoreFileContents);
 		assertEquals(expectedIgnorePairs, ignoreList.ignorePairs());
 	}
 
 	public void testReadingIgnoreValues() throws ConfigurationException {
-		List expectedIgnorePairs = new ArrayList();
+		List<IgnorePair> expectedIgnorePairs = new ArrayList<IgnorePair>();
 		expectedIgnorePairs.add(ignorePair("/*", "*/"));
 		String ignoreFileContents = "%/*%*/";
 		IgnoreList ignoreList = new IgnoreList(ignoreFileContents);
@@ -30,7 +30,7 @@ public class IgnoreListTest extends TestCase {
 	}
 
 	public void testReadingIgnoreValuesEndOfLineSpecialCase() throws ConfigurationException {
-		List expectedIgnorePairs = new ArrayList();
+		List<IgnorePair> expectedIgnorePairs = new ArrayList<IgnorePair>();
 		expectedIgnorePairs.add(ignorePair("//", "\n"));
 		String ignoreFileContents = "%//%\\n";
 		IgnoreList ignoreList = new IgnoreList(ignoreFileContents);
@@ -38,7 +38,7 @@ public class IgnoreListTest extends TestCase {
 	}
 
 	public void testReadingMultipleIgnoreValues() throws ConfigurationException {
-		List expectedIgnorePairs = new ArrayList();
+		List<IgnorePair> expectedIgnorePairs = new ArrayList<IgnorePair>();
 		expectedIgnorePairs.add(ignorePair("/*", "*/"));
 		expectedIgnorePairs.add(ignorePair("//jester_ignore_start", "//jester_ignore_end"));
 		String ignoreFileContents = "%/*%*/" + "\n" + "&//jester_ignore_start&//jester_ignore_end";
@@ -47,7 +47,7 @@ public class IgnoreListTest extends TestCase {
 	}
 
 	public void testReadingMultipleIgnoreBlankLines() throws ConfigurationException {
-		List expectedIgnorePairs = new ArrayList();
+		List<IgnorePair> expectedIgnorePairs = new ArrayList<IgnorePair>();
 		expectedIgnorePairs.add(ignorePair("/*", "*/"));
 		expectedIgnorePairs.add(ignorePair("//jester_ignore_start", "//jester_ignore_end"));
 		String ignoreFileContents = "%/*%*/" + "\n\n\n" + "&//jester_ignore_start&//jester_ignore_end";
