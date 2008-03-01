@@ -3,7 +3,6 @@ package jester;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class IgnoreListDocument {
@@ -25,8 +24,7 @@ public class IgnoreListDocument {
 		if (ignoreRegions.size() > 0) {
 			result.append(" with ignoreRegions:\n");
 		}
-		for (Iterator ignoreRegionIter = ignoreRegions.iterator(); ignoreRegionIter.hasNext();) {
-			IgnoreRegion ignoreRegion = (IgnoreRegion) ignoreRegionIter.next();
+		for (IgnoreRegion ignoreRegion : ignoreRegions) {
 			result.append(ignoreRegion.within(source) + "\n");
 		}
 		return result.toString();
@@ -51,9 +49,8 @@ public class IgnoreListDocument {
 	}
 
 	private void calculateIgnoreRegions() throws ConfigurationException {
-		List ignorePairs = ignoreList.ignorePairs();
-		for (Iterator iter = ignorePairs.iterator(); iter.hasNext();) {
-			IgnorePair ignorePair = (IgnorePair) iter.next();
+		List<IgnorePair> ignorePairs = ignoreList.ignorePairs();
+		for (IgnorePair ignorePair : ignorePairs) {
 			calculateIgnoreRegions(ignorePair);
 		}
 	}
@@ -90,8 +87,7 @@ public class IgnoreListDocument {
 	}
 
 	private boolean isInIgnoreRegion(int index) {
-		for (Iterator iter = ignoreRegions.iterator(); iter.hasNext();) {
-			IgnoreRegion ignoreRegion = (IgnoreRegion) iter.next();
+		for (IgnoreRegion ignoreRegion : ignoreRegions) {
 			if (ignoreRegion.includes(index)) {
 				return true;
 			}
