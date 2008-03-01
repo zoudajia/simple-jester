@@ -30,5 +30,4 @@ public class RealProgressReporter implements ProgressReporter {
 	public void setText(String text) {
 		ui.fTextArea.setText(text);
 	}
-
 }
