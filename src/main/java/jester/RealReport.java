@@ -125,11 +125,11 @@ public class RealReport implements Report {
 	 * @return a negative integer, zero, or a positive integer as the first
 	 * argument is less than, equal to, or greater than the second.
 	 */
-	private Comparator reportItemComparitor() {
-		return new Comparator() {
-			public int compare(Object o1, Object o2) {
-				ReportItem ri1 = (ReportItem) o1;
-				ReportItem ri2 = (ReportItem) o2;
+	private Comparator<ReportItem> reportItemComparitor() {
+		return new Comparator<ReportItem>() {
+			public int compare(ReportItem o1, ReportItem o2) {
+				ReportItem ri1 = o1;
+				ReportItem ri2 = o2;
 				return ri1.compareToReportItem(ri2);
 			}
 		};
@@ -156,7 +156,7 @@ public class RealReport implements Report {
 	}
 
 	private Object[] sortedReportItems() {
-		Object[] result = myFileChangesThatDidNotCauseTestsToFail.toArray();
+		ReportItem[] result = myFileChangesThatDidNotCauseTestsToFail.toArray(new ReportItem[0]);
 		Arrays.sort(result, reportItemComparitor());
 		return result;
 	}
