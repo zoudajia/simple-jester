@@ -31,14 +31,11 @@ public class TestTesterTest extends TestCase {
 	public void testThatTestRunByIterator() throws SourceChangeException {
 		Mockery context = new Mockery();
 		final TestRunner mockTestRunner = context.mock(TestRunner.class);
-		context.checking(new Expectations() {{
-		    one (mockTestRunner).testsRunWithoutFailures(); will(returnValue(true));
-		}});
-
 		final ClassTestTester mockClassTestTester = context.mock(ClassTestTester.class);
-
 		final ClassIterator mockClassIterator = context.mock(ClassIterator.class);
+		
 		context.checking(new Expectations() {{
+			one (mockTestRunner).testsRunWithoutFailures(); will(returnValue(true));
 		    one (mockClassIterator).iterate(mockClassTestTester);
 		}});
 
