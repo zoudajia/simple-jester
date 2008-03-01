@@ -10,6 +10,7 @@ import jester.IgnoreListDocument;
 import jester.ProgressReporter;
 import jester.RealReport;
 import jester.Report;
+import jester.ReportItem;
 import jester.SourceChangeException;
 import jester.XMLReportWriter;
 import junit.framework.TestCase;
@@ -18,26 +19,26 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 public class ReportTest extends TestCase {
-	private XMLReportWriter myXMLWriter = new MockXMLReportWriter();
-
 	public ReportTest(String name) {
 		super(name);
 	}
 
-	private Report newRealReport() {
+	private Report newRealReport() throws SourceChangeException {
 		return newRealReport(new PrintWriter(new StringWriter()));
 	}
 
-	private Report newRealReport(PrintWriter aPrintWriter) {
+	private Report newRealReport(PrintWriter aPrintWriter) throws SourceChangeException {
 		Mockery context = new Mockery();
 		final ProgressReporter mockProgressReporter = context.mock(ProgressReporter.class);
+		final XMLReportWriter mockXMLReportWriter = context.mock(XMLReportWriter.class);
 		context.checking(new Expectations(){{
 			allowing(mockProgressReporter).setColor(with(any(Color.class)));
 			allowing(mockProgressReporter).setText(with(any(String.class)));
 			allowing(mockProgressReporter).setMaximum(with(any(int.class)));
 			allowing(mockProgressReporter).progress();
+			allowing(mockXMLReportWriter).writeXMLReport(with(any(ReportItem[].class)), with(any(String.class)), with(any(int.class)), with(any(int.class)), with(any(int.class)));
 		}});
-		return new RealReport(new TestConfiguration(), aPrintWriter, myXMLWriter, mockProgressReporter);
+		return new RealReport(new TestConfiguration(), aPrintWriter, mockXMLReportWriter, mockProgressReporter);
 	}
 
 	private void startFile(Report aReport, String fileName, String originalContents) throws ConfigurationException, SourceChangeException {
@@ -224,7 +225,7 @@ public class ReportTest extends TestCase {
 		assertEquals(40, aReport.totalScore());
 	}
 
-	public void testFileMustBeStarted() {
+	public void testFileMustBeStarted() throws SourceChangeException {
 		Report aReport = newRealReport();
 		{
 			try {
