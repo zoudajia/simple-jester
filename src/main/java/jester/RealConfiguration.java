@@ -13,7 +13,6 @@ public class RealConfiguration implements Configuration {
 	private Properties myProperties;
 
 	public RealConfiguration(String configFileName, PrintStream errorStream) throws IOException {
-
 		myProperties = new Properties();
 		// FIXME Let's not load this from the class loader
 		// or at least not only from the Class loader

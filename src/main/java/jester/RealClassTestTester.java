@@ -5,7 +5,6 @@ public class RealClassTestTester implements ClassTestTester {
 	private TestRunner myTestRunner;
 
 	public RealClassTestTester(TestRunner testRunner, MutationsList aMutationsList) {
-		super();
 		myTestRunner = testRunner;
 		myMutationsList = aMutationsList;
 	}
