@@ -5,18 +5,18 @@ public class SimpleIntCodeMangler extends SimpleCodeMangler {
 		super(sourceCodeSystem);
 	}
 
-	static int charAsInt(char c) {
+	private static int charAsInt(char c) {
 		return c - '0';
 	}
 
-	String incremented(int i) {
+	private String incremented(int i) {
 		if (i == 9) {
 			return "0";
 		}
 		return String.valueOf(i + 1);
 	}
 
-	int indexOfNumber(IgnoreListDocument s) {
+	private int indexOfNumber(IgnoreListDocument s) {
 		int startIndex = getIndexOfLastChange() == -1 ? 0 : getIndexOfLastChange() + 1;
 		int length = s.length();
 		for (int index = startIndex; index < length; index++) {
