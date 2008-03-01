@@ -62,5 +62,4 @@ public class RealProgressReporterUI extends JFrame {
 		((GridBagLayout) getContentPane().getLayout()).setConstraints(comp, gbc);
 		getContentPane().add(comp);
 	}
-
 }
