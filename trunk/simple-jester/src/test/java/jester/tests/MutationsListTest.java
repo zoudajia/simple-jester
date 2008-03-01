@@ -5,28 +5,34 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 
+import jester.MutationMaker;
 import jester.MutationsList;
 import jester.RealMutationsList;
 import junit.framework.TestCase;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+
 public class MutationsListTest extends TestCase {
 	private static PrintStream NullErrorStream = new PrintStream(new ByteArrayOutputStream());
-
+	private Mockery context = new Mockery();
+	
 	public MutationsListTest(String name) {
 		super(name);
 	}
 
 	public void testDefaults() throws Exception {
-		MockMutationMaker aMockMutationMaker = new MockMutationMaker();
-
-		aMockMutationMaker.addExpectedMutateValues("true", "false");
-		aMockMutationMaker.addExpectedMutateValues("false", "true");
-		aMockMutationMaker.addExpectedMutateValues("if(", "if(true ||");
-		aMockMutationMaker.addExpectedMutateValues("if (", "if (true ||");
-		aMockMutationMaker.addExpectedMutateValues("if(", "if(false &&");
-		aMockMutationMaker.addExpectedMutateValues("if (", "if (false &&");
-		aMockMutationMaker.addExpectedMutateValues("==", "!=");
-		aMockMutationMaker.addExpectedMutateValues("!=", "==");
+		final MutationMaker mockMutationMaker = context.mock(MutationMaker.class);
+		context.checking(new Expectations(){{
+			one(mockMutationMaker).mutate("true", "false");
+			one(mockMutationMaker).mutate("false", "true");
+			one(mockMutationMaker).mutate("if(", "if(true ||");
+			one(mockMutationMaker).mutate("if (", "if (true ||");
+			one(mockMutationMaker).mutate("if(", "if(false &&");
+			one(mockMutationMaker).mutate("if (", "if (false &&");
+			one(mockMutationMaker).mutate("==", "!=");
+			one(mockMutationMaker).mutate("!=", "==");
+		}});
 
 		MutationsList aMutationsList = new RealMutationsList("there must be no file called this", NullErrorStream); // there
 																													// is
@@ -40,9 +46,9 @@ public class MutationsListTest extends TestCase {
 																													// file
 																													// called
 																													// this"
-		aMutationsList.visit(aMockMutationMaker);
+		aMutationsList.visit(mockMutationMaker);
 
-		aMockMutationMaker.verify();
+		context.assertIsSatisfied();
 	}
 
 	public void testReadMutations() throws Exception {
@@ -51,15 +57,16 @@ public class MutationsListTest extends TestCase {
 		String readString = delimiter1 + "xyz" + delimiter1 + "a b c" + "\n" + delimiter2 + "1" + delimiter2 + "2";
 		StringReader aStringReader = new StringReader(readString);
 
-		MockMutationMaker aMockMutationMaker = new MockMutationMaker();
-
-		aMockMutationMaker.addExpectedMutateValues("xyz", "a b c");
-		aMockMutationMaker.addExpectedMutateValues("1", "2");
+		final MutationMaker mockMutationMaker = context.mock(MutationMaker.class);
+		context.checking(new Expectations(){{
+			one(mockMutationMaker).mutate("xyz", "a b c");
+			one(mockMutationMaker).mutate("1", "2");
+		}});
 
 		RealMutationsList aMutationsList = new RealMutationsList("", NullErrorStream);
-		aMutationsList.visit(new BufferedReader(aStringReader), aMockMutationMaker);
+		aMutationsList.visit(new BufferedReader(aStringReader), mockMutationMaker);
 
-		aMockMutationMaker.verify();
+		context.assertIsSatisfied();
 	}
 
 	public void testReadMutationsIgnoreBogusLinesIncludingBlankOnes() throws Exception {
@@ -76,14 +83,15 @@ public class MutationsListTest extends TestCase {
 																	// line
 		StringReader aStringReader = new StringReader(readString);
 
-		MockMutationMaker aMockMutationMaker = new MockMutationMaker();
-
-		aMockMutationMaker.addExpectedMutateValues("1", "2");
-		aMockMutationMaker.addExpectedMutateValues("a", "b");
+		final MutationMaker mockMutationMaker = context.mock(MutationMaker.class);
+		context.checking(new Expectations(){{
+			one(mockMutationMaker).mutate("1", "2");
+			one(mockMutationMaker).mutate("a", "b");
+		}});
 
 		RealMutationsList aMutationsList = new RealMutationsList("", NullErrorStream);
-		aMutationsList.visit(new BufferedReader(aStringReader), aMockMutationMaker);
+		aMutationsList.visit(new BufferedReader(aStringReader), mockMutationMaker);
 
-		aMockMutationMaker.verify();
+		context.assertIsSatisfied();
 	}
 }
