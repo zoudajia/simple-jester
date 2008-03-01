@@ -19,8 +19,10 @@ public class ClassTestTesterTest extends TestCase {
 	}
 
 	public void testThatChangeThatFailsTestsIsNotRecorded() throws SourceChangeException {
-		MockTestRunner mockTestRunner = new MockTestRunner();
-		mockTestRunner.setTestsRunWithoutFailures(false);
+		final TestRunner mockTestRunner = context.mock(TestRunner.class);
+		context.checking(new Expectations(){{
+			one(mockTestRunner).testsRunWithoutFailures(); will(returnValue(false));
+		}});
 
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
 		mockClassSourceCodeChanger.setOriginalContents("includes 1 thing that will be changed");
@@ -41,8 +43,10 @@ public class ClassTestTesterTest extends TestCase {
 	}
 
 	public void testThatChangeThatPassesTestsIsRecorded() throws SourceChangeException {
-		MockTestRunner mockTestRunner = new MockTestRunner();
-		mockTestRunner.setTestsRunWithoutFailures(true);
+		final TestRunner mockTestRunner = context.mock(TestRunner.class);
+		context.checking(new Expectations(){{
+			one(mockTestRunner).testsRunWithoutFailures(); will(returnValue(true));
+		}});
 
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
 		mockClassSourceCodeChanger.setOriginalContents("includes 1 thing that will be changed");
@@ -63,7 +67,7 @@ public class ClassTestTesterTest extends TestCase {
 	}
 
 	public void testThatOriginalContentsAreNotWrittenBackIfNoChanges() throws SourceChangeException {
-		MockTestRunner mockTestRunner = new MockTestRunner();
+		final TestRunner mockTestRunner = null;
 
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
 		mockClassSourceCodeChanger.setOriginalContents("includes nothing that will be changed");
@@ -83,7 +87,10 @@ public class ClassTestTesterTest extends TestCase {
 	}
 
 	public void testThatOriginalContentsAreWrittenBack() throws SourceChangeException {
-		MockTestRunner mockTestRunner = new MockTestRunner();
+		final TestRunner mockTestRunner = context.mock(TestRunner.class);
+		context.checking(new Expectations(){{
+			one(mockTestRunner).testsRunWithoutFailures(); will(returnValue(false));
+		}});
 
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
 		mockClassSourceCodeChanger.setOriginalContents("includes 1 thing that will be changed");
@@ -112,7 +119,7 @@ public class ClassTestTesterTest extends TestCase {
 	}
 
 	public void testThatMutationListIsUsed() throws SourceChangeException {
-		MockTestRunner mockTestRunner = new MockTestRunner();
+		final TestRunner mockTestRunner = null;
 
 		MockClassSourceChanger mockClassSourceCodeChanger = new MockClassSourceChanger();
 		mockClassSourceCodeChanger.setOriginalContents("includes nothing that will be changed");
