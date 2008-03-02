@@ -2,7 +2,6 @@ package jester;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -64,8 +63,7 @@ public class MainArguments {
 	private void checkDirectoriesOrFilesToMutateExist() throws JesterArgumentException {
 		if (directoryOrFileNames == null)
 			throw new JesterArgumentException("missing source directory/file name argument");
-		for (Iterator name = directoryOrFileNames.iterator(); name.hasNext();) {
-			String directoryOrFileName = (String) name.next();
+		for (String directoryOrFileName : directoryOrFileNames) {
 			if (!aFileExistenceChecker.exists(directoryOrFileName)) {
 				throw new JesterArgumentException("source directory/file \"" + directoryOrFileName + "\" does not exist");
 			}
