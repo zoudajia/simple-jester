@@ -1,3 +1,4 @@
 this is in a state of transition to maven ...
 
-you won't be able to build the distribution yet
+sorry - to build the zip I've reverted to ant. 
+I don't have time to work out how to maven to do what I want
