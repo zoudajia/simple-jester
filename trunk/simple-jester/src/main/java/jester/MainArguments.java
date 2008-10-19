@@ -2,96 +2,125 @@ package jester;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Handling of the arguments given to the main method in TestTester.
  */
 public class MainArguments {
-	private static final String OPTIONAL_ARGUMENT_START = "-";
-	private static final String SHOW_PROGRESS_DIALOG_OPTION_START = OPTIONAL_ARGUMENT_START + "q";
+	private static final String BUILD_COMMAND_ARG_NAME = "buildCommand";
+	private static final String SOURCE_ARG_NAME = "source";
+	private static final String CONFIG_ARG_NAME = "config";
+	private static final String IGNORE_ARG_NAME = "ignore";
+	private static final String MUTATIONS_ARG_NAME = "mutations";
 
-	private List<String> directoryOrFileNames = null;
-	private String buildRunningCommand = null;
-	private FileExistenceChecker aFileExistenceChecker;
-	private boolean shouldShowProgressDialog = true;
+	private final FileExistenceChecker aFileExistenceChecker;
+	private final String[] args;
+	private final Map<String, List<String>> argMap = new HashMap<String, List<String>>();
 
 	public MainArguments(String[] args, FileExistenceChecker aFileExistenceChecker) throws JesterArgumentException {
+		this.args = args;
 		this.aFileExistenceChecker = aFileExistenceChecker;
-		readArguments(args);
+		parse();
+		checkArgs();
+	}
+
+	private void checkArgs() throws JesterArgumentException {
+		checkManditoryFieldsExist(BUILD_COMMAND_ARG_NAME, SOURCE_ARG_NAME);
+		checkNotMoreThanOneValueExists(BUILD_COMMAND_ARG_NAME, IGNORE_ARG_NAME);
+		checkFilesExist(SOURCE_ARG_NAME, IGNORE_ARG_NAME);
+	}
+
+	private void checkFilesExist(String... argNames) throws JesterArgumentException {
+		for (String argName : argNames) {
+			List<String> fileNames = get(argName);
+			if (fileNames != null) {
+				for (String fileName : fileNames) {
+					if (!aFileExistenceChecker.exists(fileName)) {
+						throw new JesterArgumentException("Source file or directory <" + fileName + "> doesn't exist.");
+					}
+				}
+			}
+		}
+	}
+
+	private void checkNotMoreThanOneValueExists(String... argNames) throws JesterArgumentException {
+		for (String argName : argNames) {
+			if (get(argName) != null && get(argName).size() != 1) {
+				throw new JesterArgumentException("Can only have one <" + argName + ">");
+			}
+		}
+	}
+
+	private void checkManditoryFieldsExist(String... argNames) throws JesterArgumentException {
+		for (String argName : argNames) {
+			if (get(argName) == null) {
+				throw new JesterArgumentException("Didn't have manditory argument <" + argName + ">");
+			}
+		}
+	}
+
+	private void parse() throws JesterArgumentException {
+		String name = null;
+		for (String arg : args) {
+			boolean isName = arg.startsWith("-");
+			if (isName) {
+				name = arg.substring(1);
+			} else {
+				if (name == null) {
+					throw new JesterArgumentException("Badly formed arguments");
+				}
+				append(argMap, name, arg);
+			}
+		}
+	}
+
+	private void append(Map<String, List<String>> argMap, String name, String arg) {
+		List<String> values = get(name);
+		if (values == null) {
+			values = new ArrayList<String>();
+			argMap.put(name, values);
+		}
+		values.add(arg);
 	}
 
 	public static void printUsage(PrintStream out, String version) {
 		out.println("Jester version " + version);
-		out.println("java jester.TestTester <BuildRunningCommand> <sourceDirOrFile> <sourceDirOrFile> ...");
-		out.println("example usage: java jester.TestTester \"ant\" com/xpdeveloper/server");
+		String optionaArguments = "[-" + MUTATIONS_ARG_NAME + " foo.txt -" + IGNORE_ARG_NAME + " bar.txt -" + CONFIG_ARG_NAME + " j.txt]";
+		String manditoryArguments = "-" + BUILD_COMMAND_ARG_NAME + " <BuildRunningCommand> -" + SOURCE_ARG_NAME + " <sourceDirOrFile> <sourceDirOrFile> ... ";
+		out.println("java -jar simple-jester.jar " + manditoryArguments + optionaArguments);
+		out.println("example usage: java -jar simple-jester.jar \"ant\" com/oocode/foo");
 		out.println("for FAQ see http://jester.sourceforge.net");
 		out.println("Copyright (2000-2008) Ivan Moore. Read the license.");
 	}
 
-	public String[] getDirectoryOrFileNames() {
-		return directoryOrFileNames.toArray(new String[directoryOrFileNames.size()]);
+	public List<String> getDirectoryOrFileNames() {
+		return get(SOURCE_ARG_NAME);
 	}
 
 	public String getBuildRunningCommand() {
-		return buildRunningCommand;
+		return getBuildRunningCommands().get(0);
+	}
+
+	private List<String> getBuildRunningCommands() {
+		return get(BUILD_COMMAND_ARG_NAME);
 	}
 
 	public boolean shouldShowProgressDialog() {
-		return shouldShowProgressDialog;
+		return false;
 	}
 
-	private void readArguments(String[] arguments) throws JesterArgumentException {
-		List<String> normalArgs = new ArrayList<String>();
-		List<String> optionalArgs = new ArrayList<String>();
-		for (int i = 0; i < arguments.length; i++) {
-			if (arguments[i].trim().startsWith(OPTIONAL_ARGUMENT_START)) {
-				optionalArgs.add(arguments[i]);
-			} else {
-				normalArgs.add(arguments[i]);
-			}
-		}
-		setBuildRunningCommandFromArguments(normalArgs);
-		setDirectoriesOrFilesToMutateFromArguments(normalArgs);
-		setOptionalShouldShowProgressDialogFromArguments(optionalArgs);
-
-		if (buildRunningCommand == null)
-			throw new JesterArgumentException("missing build running command argument");
-		checkDirectoriesOrFilesToMutateExist();
+	public String getIgnoreListFileName() {
+		return getIgnoreListFileNames().get(0);
 	}
 
-	private void checkDirectoriesOrFilesToMutateExist() throws JesterArgumentException {
-		if (directoryOrFileNames == null)
-			throw new JesterArgumentException("missing source directory/file name argument");
-		for (String directoryOrFileName : directoryOrFileNames) {
-			if (!aFileExistenceChecker.exists(directoryOrFileName)) {
-				throw new JesterArgumentException("source directory/file \"" + directoryOrFileName + "\" does not exist");
-			}
-		}
+	private List<String> getIgnoreListFileNames() {
+		return get(IGNORE_ARG_NAME);
 	}
 
-	private void setBuildRunningCommandFromArguments(List<String> normalArgs) throws JesterArgumentException {
-		if (normalArgs.size() == 0) {
-			throw new JesterArgumentException("Missing Build Running Command Argument");
-		}
-		buildRunningCommand = normalArgs.get(0);
-	}
-
-	private void setDirectoriesOrFilesToMutateFromArguments(List<String> normalArgs) throws JesterArgumentException {
-		if (normalArgs.size() < 2) {
-			throw new JesterArgumentException("Missing Directories Or Files To Mutate Arguments");
-		}
-		directoryOrFileNames = new ArrayList<String>();
-		directoryOrFileNames.addAll(normalArgs);
-		directoryOrFileNames.remove(0);
-	}
-
-	private void setOptionalShouldShowProgressDialogFromArguments(List<String> optionalArgs) {
-		for (String arg : optionalArgs) {
-			if (arg.startsWith(SHOW_PROGRESS_DIALOG_OPTION_START)) {
-				shouldShowProgressDialog = false;
-				return;
-			}
-		}
+	private List<String> get(String argName) {
+		return argMap.get(argName);
 	}
 }
