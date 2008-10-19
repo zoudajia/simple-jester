@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.List;
 
 /**
  * Copyright (2000-2008) Ivan Moore
@@ -120,7 +121,7 @@ public class TestTester {
 
 			aReport = new RealReport(configuration, new PrintWriter(System.out), anXMLReportWriter, progressReporter);
 
-			String[] directoryNames = mainArguments.getDirectoryOrFileNames();
+			List<String> directoryNames = mainArguments.getDirectoryOrFileNames();
 			ClassIterator classIterator = new FileBasedClassIterator(configuration, directoryNames, aReport);
 
 			String buildRunningCommand = mainArguments.getBuildRunningCommand();

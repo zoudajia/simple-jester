@@ -58,6 +58,29 @@ public class MainArgumentsTest {
 	}
 	
 	@Test
+	public void shouldShowProgressDialogCanBeSpecified() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-shouldShowProgressDialog", "true" }, anythingFileExistenceChecker);
+		assertTrue(args.shouldShowProgressDialog());
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void shouldShowProgressDialogCanBeOnlyBeSpecifiedOnce() throws JesterArgumentException {
+		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-shouldShowProgressDialog", "true", "false" }, anythingFileExistenceChecker);
+	}
+	
+	@Test
+	public void anythingOtherThanTrueIsFalseForSpecifyingShouldShowProgressDialog() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-shouldShowProgressDialog", "maybe" }, anythingFileExistenceChecker);
+		assertFalse(args.shouldShowProgressDialog());
+	}
+	
+	@Test
+	public void shouldShowProgressDialogDefaultsToTrue() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant" }, anythingFileExistenceChecker);
+		assertTrue(args.shouldShowProgressDialog());
+	}
+	
+	@Test
 	public void mutationListCanBeSpecified() throws JesterArgumentException {
 		MainArguments args = new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-mutations", "foo.txt" }, anythingFileExistenceChecker);
 		assertEquals("foo.txt", args.getMutationsFileName());
@@ -73,6 +96,22 @@ public class MainArgumentsTest {
 		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-mutations", "foo.txt" }, new FileExistenceStub("src"));
 	}
 	
+	@Test
+	public void configCanBeSpecified() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-config", "foo.txt" }, anythingFileExistenceChecker);
+		assertEquals("foo.txt", args.getConfigFileName());
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void onlyOneConfigCanBeSpecified() throws JesterArgumentException {
+		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-config", "foo.txt", "bar.txt" }, anythingFileExistenceChecker);
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void configMustExist() throws JesterArgumentException {
+		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-config", "foo.txt" }, new FileExistenceStub("src"));
+	}
+
 	@Test(expected = JesterArgumentException.class)
 	public void missingArgNameCausesExceptionToBeThrown() throws Exception {
 		new MainArguments(new String[] {"whatever", "-buildCommand", "ant", "-source", "src" }, anythingFileExistenceChecker);
