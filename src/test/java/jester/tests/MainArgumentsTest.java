@@ -1,75 +1,102 @@
 package jester.tests;
 
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+
 import jester.FileExistenceChecker;
 import jester.JesterArgumentException;
 import jester.MainArguments;
-import junit.framework.TestCase;
 
-public class MainArgumentsTest extends TestCase {
-	FileExistenceChecker anythingFileExistenceChecker = new FileExistenceChecker() {
+public class MainArgumentsTest {
+	private final FileExistenceChecker anythingFileExistenceChecker = new FileExistenceChecker() {
 		public boolean exists(String fileName) {
 			return true;
 		}
 	};
-	FileExistenceChecker nothingFileExistenceChecker = new FileExistenceChecker() {
+	
+	private final FileExistenceStub nothingFileExistenceChecker = new FileExistenceStub();
+
+	@Test
+	public void mandatoryArgumentsAreParsedOut() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-buildCommand", "ant", "-source", "src" }, anythingFileExistenceChecker);
+		assertEquals("ant", args.getBuildRunningCommand());
+		assertEquals(Arrays.asList(new String[] { "src" }), args.getDirectoryOrFileNames());
+	}
+	
+	@Test
+	public void canHaveManySourceDirectoriesOrFiles() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-buildCommand", "ant", "-source", "src1", "src2", "src3", "src4" }, anythingFileExistenceChecker);
+		assertEquals("ant", args.getBuildRunningCommand());
+		assertEquals(Arrays.asList(new String[] { "src1", "src2", "src3", "src4" }), args.getDirectoryOrFileNames());
+	}
+	
+	@Test
+	public void orderOfArgsDoesNotMatter() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-source", "src1", "src2", "src3", "src4", "-buildCommand", "ant" }, anythingFileExistenceChecker);
+		assertEquals("ant", args.getBuildRunningCommand());
+		assertEquals(Arrays.asList(new String[] { "src1", "src2", "src3", "src4" }), args.getDirectoryOrFileNames());
+	}
+	
+	@Test
+	public void ignoreListCanBeSpecified() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-ignore", "foo.txt" }, anythingFileExistenceChecker);
+		assertEquals("foo.txt", args.getIgnoreListFileName());
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void onlyOneIgnoreListCanBeSpecified() throws JesterArgumentException {
+		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-ignore", "foo.txt", "bar.txt" }, anythingFileExistenceChecker);
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void ignoreListMustExist() throws JesterArgumentException {
+		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-ignore", "foo.txt" }, new FileExistenceStub("src"));
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void missingArgNameCausesExceptionToBeThrown() throws Exception {
+		new MainArguments(new String[] {"whatever", "-buildCommand", "ant", "-source", "src" }, anythingFileExistenceChecker);
+	}
+
+	@Test(expected = JesterArgumentException.class)
+	public void missingBuildArgumentCausesExceptionToBeThrown() throws Exception {
+		new MainArguments(new String[] {"-source", "src"}, anythingFileExistenceChecker);
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void missingSourceArgumentCausesExceptionToBeThrown() throws Exception {
+		new MainArguments(new String[] {"-buildCommand", "ant"}, anythingFileExistenceChecker);
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void missingAllArgumentsCausesExceptionToBeThrown() throws Exception {
+		new MainArguments(new String[] {}, anythingFileExistenceChecker);
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void missingFileCausesExceptionToBeThrown() throws Exception {
+		new MainArguments(new String[] {"-buildCommand", "ant", "-source", "src1"}, nothingFileExistenceChecker);
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void moreThanOneBuildCommandCausesExceptionToBeThrown() throws Exception {
+		new MainArguments(new String[] {"-buildCommand", "ant", "fly", "-source", "src1"}, anythingFileExistenceChecker);
+	}
+	
+	private static class FileExistenceStub implements FileExistenceChecker {
+		private List<String> filesThatExist;
+		
+		public FileExistenceStub(String... filesThatExist) {
+			super();
+			this.filesThatExist = Arrays.asList(filesThatExist);
+		}
+
 		public boolean exists(String fileName) {
-			return false;
-		}
-	};
-
-	public MainArgumentsTest(String name) {
-		super(name);
-	}
-
-	public void testMissingArgumentsCauseExceptionToBeThrown() throws Exception {
-		try {
-			new MainArguments(new String[] {}, anythingFileExistenceChecker);
-			fail();
-		} catch (JesterArgumentException e) {
-			// exception was expected, everything is ok
-		}
-
-		try {
-			new MainArguments(new String[] { "a" }, anythingFileExistenceChecker);
-			fail();
-		} catch (JesterArgumentException e) {
-			// exception was expected, everything is ok
-		}
-	}
-
-	public void testMissingFileCauseExceptionToBeThrown() throws Exception {
-		try {
-			new MainArguments(new String[] { "a", "b" }, nothingFileExistenceChecker);
-			fail("Expected exception to be thrown because file doesn't exist");
-		} catch (JesterArgumentException e) {
-			// exception was expected, everything is ok
-		}
-	}
-
-	public void testMandatoryArguments() throws JesterArgumentException {
-		MainArguments args = new MainArguments(new String[] { "a", "b" }, anythingFileExistenceChecker);
-		assertEquals("a", args.getBuildRunningCommand());
-		assertEquals(new String[] { "b" }, args.getDirectoryOrFileNames());
-	}
-
-	public void testThatMultipleMutationDirectoriesOrFilesAreAllowed() throws JesterArgumentException {
-		MainArguments args = new MainArguments(new String[] { "a", "b1", "b2", "b3" }, anythingFileExistenceChecker);
-		assertEquals("a", args.getBuildRunningCommand());
-		assertEquals(new String[] { "b1", "b2", "b3" }, args.getDirectoryOrFileNames());
-	}
-
-	public void testThatOneCanSpecifyOptionToNotShowProgressDialog() throws JesterArgumentException {
-		MainArguments args = new MainArguments(new String[] { "a", "b" }, anythingFileExistenceChecker);
-		assertTrue(args.shouldShowProgressDialog());
-
-		args = new MainArguments(new String[] { "a", "-q", "b" }, anythingFileExistenceChecker);
-		assertFalse(args.shouldShowProgressDialog());
-	}
-
-	private void assertEquals(String[] expected, String[] actual) {
-		assertEquals(expected.length, actual.length);
-		for (int i = 0; i < actual.length; i++) {
-			assertEquals(expected[i], actual[i]);
+			return filesThatExist.contains(fileName);
 		}
 	}
 }
