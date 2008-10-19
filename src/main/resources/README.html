@@ -46,14 +46,7 @@ Older versions of Jester might work with older versions of Java.</P>
 	<LI><P STYLE="margin-bottom: 0cm">Java (&gt;=1.4) must already be
 	installed, with java on the path 
 	</P>
-	<LI><P STYLE="margin-bottom: 0cm"><B><FONT COLOR="#008000">Add
-	Jester to the classpath</FONT></B>; (e.g. on windows, something like '<TT>set
-	classpath=%classpath%;INSTALL_DIR\simple-jester.jar')</TT> 
-	</P>
-	<LI><P STYLE="margin-bottom: 0cm">Windows users can run the included
-	batch file 'setcp' to set the classpath to include Jester and JUnit
-	for running an example (test.bat) and Jester's tests
-	(runAllTests.bat) in the installation directory. For a simple
+	<LI><P STYLE="margin-bottom: 0cm">For a simple
 	example (which currently only runs under Windows), run the batch
 	file '<TT>test.bat</TT>'. 
 	</P>
@@ -96,8 +89,7 @@ text area changing - because that was simpler to implement.
 	after running Jester. If you don't use source control, only run
 	Jester on a copy of your source in a different directory, otherwise
 	you'll regret it!</P>
-	<LI><P><FONT COLOR="#008000">To run Jester, execute '<TT><B>java
-	jester.TestTester BUILD_COMMAND SOURCE_DIRECTORY</B></TT>'
+	<LI><P><FONT COLOR="#008000">To run Jester, execute '<TT><B>java -jar simple-jester.jar BUILD_COMMAND SOURCE_DIRECTORY</B></TT>'
 	where <TT>BUILD_COMMAND</TT> is your build command and <TT>SOURCE_DIRECTORY</TT>
 	is the directory (or a single source file) that contains the source
 	code that you want<FONT FACE="Times New Roman, serif"> Jester </FONT> to
@@ -285,6 +277,8 @@ the <TT>.py</TT> files. To run Jester's tests</P>
 </H2>
 <P>Very many thanks to:</P>
 <UL>
+	<LI>Malte Finsterwalder for his feedback on simple-jester. 
+
 	<LI>Nat Pryce for
 	reporting the problem with running simple-jester version 1.0 in linux. 
 
@@ -335,10 +329,8 @@ PST 2001 Trying to run command &quot;ant.bat -f test-build.xml&quot;</TT>&quot;,
 then try running &quot;<TT>ant.bat -f test-build.xml</TT>&quot;; this
 may then reveal the problem. In the case of tests not passing (e.g.
 the message &quot;Couldn't run test tester because tests didn't pass
-before any changes made&quot;), try running the tests both directly
-(e.g. &quot;<TT>ant.bat -f test-build.xml</TT>&quot;) and using the
-code that Jester uses (e.g. &quot;<TT>java jester.RealTestRunner
-&quot;ant.bat -f test-build.xml&quot;</TT>&quot;). Please delete the
+before any changes made&quot;), try running the tests directly
+(e.g. &quot;<TT>ant.bat -f test-build.xml</TT>&quot;). Please delete the
 file &quot;<TT>jester.log</TT>&quot; whenever it gets too large, or
 before running Jester if preferred. 
 </P>

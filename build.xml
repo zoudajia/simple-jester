@@ -5,34 +5,31 @@
 	<property name="dist" value="dist/"/>
 	<property name="distbuild" value="${dist}/${productName}${versionNumber}"/>
 
-  <target name="init">
-    <tstamp>
-    <format property="TIMENOW" pattern="h:mm a" locale="en"/>
-    <format property="DATENOW" pattern="dd/MM/yyyy" locale="en"/>
-    </tstamp>
-    <echo message="Started building ${productName}${versionNumber} at ${TIMENOW} on ${DATENOW}" />
-  </target>
-  
   <target name="check-for-version-number" unless="versionNumber">
   	<fail message="You must define a version number, e.g. -DversionNumber=102"/>
   </target>
 
   <target name="dist" depends="cleancompile, check-for-version-number" description="make the jester distributable">
-  	<mkdir dir="${distbuild}"/>
-		<copy todir="${distbuild}">
-			<fileset dir="${src}/main/resources">
-				<include name="**" />
-			</fileset>
-			<fileset dir="${src}/test/java">
-				<include name="${src}/test/java/acceptancetests/**" />
-			</fileset>
-		</copy>
+  		<mkdir dir="${distbuild}"/>
     	<jar jarfile="${distbuild}/${productName}.jar" basedir="${build}">
     		<manifest>                
     			<attribute name="Main-Class" value="jester.TestTester"/>              
     		</manifest>        
     	</jar>
-    	<jar jarfile="${distbuild}/source.jar" basedir="${src}" />
+		<copy todir="${distbuild}">
+			<fileset dir="${src}/main/resources">
+				<include name="**/*.*" />
+			</fileset>
+			<fileset dir="${src}/test/java">
+				<include name="**/acceptancetests/*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${distbuild}/lib">
+			<fileset dir="lib">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+  		<jar jarfile="${distbuild}/${productName}${versionNumber}-source.jar" basedir="${src}" />
 		<zip zipfile="${productName}${versionNumber}.zip" basedir="${dist}" />
   </target>
   
@@ -46,7 +43,7 @@
     <delete dir="${dist}"/>
   </target>
 
-  <target name="compile" depends="init">
+  <target name="compile">
     <mkdir dir="${build}"/>
     <javac srcdir="${src}/main/java" destdir="${build}" source="1.5" target="1.5">
         <classpath>
