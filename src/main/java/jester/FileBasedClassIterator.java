@@ -1,17 +1,16 @@
 package jester;
 
 import java.io.File;
+import java.util.List;
 
 public class FileBasedClassIterator implements ClassIterator {
 	private Configuration myConfiguration;
-	private String[] myFileNames;
+	private List<String> myFileNames;
 	private Report myReport;
 
-	public FileBasedClassIterator(Configuration configuration, String[] fileNames, Report aReport) {
+	public FileBasedClassIterator(Configuration configuration, List<String> directoryNames, Report aReport) {
 		myConfiguration = configuration;
-		// copy array so it can't be externally mutated
-		myFileNames = new String[fileNames.length];
-		System.arraycopy(fileNames, 0, myFileNames, 0, fileNames.length);
+		myFileNames = directoryNames;
 		myReport = aReport;
 	}
 
@@ -25,8 +24,8 @@ public class FileBasedClassIterator implements ClassIterator {
 				}
 			}
 		};
-		for (int i = 0; i < myFileNames.length; i++) {
-			visitFileOrDirectory(myFileNames[i], fileCounter);
+		for (String fileName : myFileNames) {
+			visitFileOrDirectory(fileName, fileCounter);
 		}
 		myReport.setNumberOfFilesThatWillBeTested(numberOfFiles[0]);
 
@@ -39,8 +38,8 @@ public class FileBasedClassIterator implements ClassIterator {
 			}
 		};
 
-		for (int i = 0; i < myFileNames.length; i++) {
-			visitFileOrDirectory(myFileNames[i], classTestVisitorWrapper);
+		for (String fileName : myFileNames) {
+			visitFileOrDirectory(fileName, classTestVisitorWrapper);
 		}
 	}
 

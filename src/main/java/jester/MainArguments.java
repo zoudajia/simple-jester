@@ -6,15 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Handling of the arguments given to the main method in TestTester.
- */
 public class MainArguments {
 	private static final String BUILD_COMMAND_ARG_NAME = "buildCommand";
 	private static final String SOURCE_ARG_NAME = "source";
+	
 	private static final String CONFIG_ARG_NAME = "config";
 	private static final String IGNORE_ARG_NAME = "ignore";
 	private static final String MUTATIONS_ARG_NAME = "mutations";
+	private static final String SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME = "shouldShowProgressDialog";
 
 	private final FileExistenceChecker aFileExistenceChecker;
 	private final String[] args;
@@ -29,8 +28,8 @@ public class MainArguments {
 
 	private void checkArgs() throws JesterArgumentException {
 		checkManditoryFieldsExist(BUILD_COMMAND_ARG_NAME, SOURCE_ARG_NAME);
-		checkNotMoreThanOneValueExists(BUILD_COMMAND_ARG_NAME, IGNORE_ARG_NAME, MUTATIONS_ARG_NAME);
-		checkFilesExist(SOURCE_ARG_NAME, IGNORE_ARG_NAME, MUTATIONS_ARG_NAME);
+		checkNotMoreThanOneValueExists(BUILD_COMMAND_ARG_NAME, IGNORE_ARG_NAME, MUTATIONS_ARG_NAME, CONFIG_ARG_NAME, SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME);
+		checkFilesExist(SOURCE_ARG_NAME, IGNORE_ARG_NAME, MUTATIONS_ARG_NAME, CONFIG_ARG_NAME);
 	}
 
 	private void checkFilesExist(String... argNames) throws JesterArgumentException {
@@ -88,7 +87,7 @@ public class MainArguments {
 
 	public static void printUsage(PrintStream out, String version) {
 		out.println("Jester version " + version);
-		String optionaArguments = "[-" + MUTATIONS_ARG_NAME + " foo.txt -" + IGNORE_ARG_NAME + " bar.txt -" + CONFIG_ARG_NAME + " j.txt]";
+		String optionaArguments = "[-" + MUTATIONS_ARG_NAME + " foo.txt -" + IGNORE_ARG_NAME + " bar.txt -" + CONFIG_ARG_NAME + " j.txt -" + SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME + " true|false]";
 		String manditoryArguments = "-" + BUILD_COMMAND_ARG_NAME + " <BuildRunningCommand> -" + SOURCE_ARG_NAME + " <sourceDirOrFile> <sourceDirOrFile> ... ";
 		out.println("java -jar simple-jester.jar " + manditoryArguments + optionaArguments);
 		out.println("example usage: java -jar simple-jester.jar \"ant\" com/oocode/foo");
@@ -105,7 +104,12 @@ public class MainArguments {
 	}
 
 	public boolean shouldShowProgressDialog() {
-		return false;
+		List<String> shouldShowList = get(SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME);
+		if(shouldShowList == null) {
+			return true;
+		}
+		String shouldShowText = shouldShowList.get(0);
+		return "true".equals(shouldShowText);
 	}
 
 	public String getIgnoreListFileName() {
@@ -114,6 +118,10 @@ public class MainArguments {
 
 	public String getMutationsFileName() {
 		return get(MUTATIONS_ARG_NAME).get(0);
+	}
+
+	public String getConfigFileName() {
+		return get(CONFIG_ARG_NAME).get(0);
 	}
 
 	private List<String> get(String argName) {
