@@ -29,8 +29,8 @@ public class MainArguments {
 
 	private void checkArgs() throws JesterArgumentException {
 		checkManditoryFieldsExist(BUILD_COMMAND_ARG_NAME, SOURCE_ARG_NAME);
-		checkNotMoreThanOneValueExists(BUILD_COMMAND_ARG_NAME, IGNORE_ARG_NAME);
-		checkFilesExist(SOURCE_ARG_NAME, IGNORE_ARG_NAME);
+		checkNotMoreThanOneValueExists(BUILD_COMMAND_ARG_NAME, IGNORE_ARG_NAME, MUTATIONS_ARG_NAME);
+		checkFilesExist(SOURCE_ARG_NAME, IGNORE_ARG_NAME, MUTATIONS_ARG_NAME);
 	}
 
 	private void checkFilesExist(String... argNames) throws JesterArgumentException {
@@ -101,11 +101,7 @@ public class MainArguments {
 	}
 
 	public String getBuildRunningCommand() {
-		return getBuildRunningCommands().get(0);
-	}
-
-	private List<String> getBuildRunningCommands() {
-		return get(BUILD_COMMAND_ARG_NAME);
+		return get(BUILD_COMMAND_ARG_NAME).get(0);
 	}
 
 	public boolean shouldShowProgressDialog() {
@@ -113,11 +109,11 @@ public class MainArguments {
 	}
 
 	public String getIgnoreListFileName() {
-		return getIgnoreListFileNames().get(0);
+		return get(IGNORE_ARG_NAME).get(0);
 	}
 
-	private List<String> getIgnoreListFileNames() {
-		return get(IGNORE_ARG_NAME);
+	public String getMutationsFileName() {
+		return get(MUTATIONS_ARG_NAME).get(0);
 	}
 
 	private List<String> get(String argName) {

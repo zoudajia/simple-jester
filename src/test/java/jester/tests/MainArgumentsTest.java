@@ -57,6 +57,22 @@ public class MainArgumentsTest {
 		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-ignore", "foo.txt" }, new FileExistenceStub("src"));
 	}
 	
+	@Test
+	public void mutationListCanBeSpecified() throws JesterArgumentException {
+		MainArguments args = new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-mutations", "foo.txt" }, anythingFileExistenceChecker);
+		assertEquals("foo.txt", args.getMutationsFileName());
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void onlyOneMutationListCanBeSpecified() throws JesterArgumentException {
+		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-mutations", "foo.txt", "bar.txt" }, anythingFileExistenceChecker);
+	}
+	
+	@Test(expected = JesterArgumentException.class)
+	public void mutationListMustExist() throws JesterArgumentException {
+		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-mutations", "foo.txt" }, new FileExistenceStub("src"));
+	}
+	
 	@Test(expected = JesterArgumentException.class)
 	public void missingArgNameCausesExceptionToBeThrown() throws Exception {
 		new MainArguments(new String[] {"whatever", "-buildCommand", "ant", "-source", "src" }, anythingFileExistenceChecker);
