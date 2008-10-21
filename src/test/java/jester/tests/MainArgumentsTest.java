@@ -102,6 +102,15 @@ public class MainArgumentsTest {
 		assertEquals("foo.txt", args.getConfigFileName());
 	}
 	
+	@Test
+	public void nonManditoryArgumentsAreNullIfNotSpecified() throws Exception {
+		MainArguments args = new MainArguments(new String[] { "-buildCommand", "ant", "-source", "src" }, anythingFileExistenceChecker);
+		
+		assertNull(args.getConfigFileName());
+		assertNull(args.getIgnoreListFileName());
+		assertNull(args.getMutationsFileName());
+	}
+	
 	@Test(expected = JesterArgumentException.class)
 	public void onlyOneConfigCanBeSpecified() throws JesterArgumentException {
 		new MainArguments(new String[] { "-source", "src", "-buildCommand", "ant", "-config", "foo.txt", "bar.txt" }, anythingFileExistenceChecker);

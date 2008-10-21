@@ -1,10 +1,8 @@
 package jester;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Vector;
@@ -66,27 +64,5 @@ public class Util {
 		}
 
 		return buff.toString();
-	}
-
-	// TODO: how are you supposed to do this?
-	private static String readContentsIgnoringCarrageReturns(Reader reader) throws IOException {
-		StringBuffer buff = new StringBuffer();
-		BufferedReader lineReader = new BufferedReader(reader);
-
-		String line = lineReader.readLine();
-		while (line != null) {
-			buff.append(line + "\n");
-			line = lineReader.readLine();
-		}
-
-		return buff.toString();
-	}
-
-	public static String readFileOnClassPath(String fileName) throws IOException {
-		InputStream fileInputStream = ClassLoader.getSystemResourceAsStream(fileName);
-		if (fileInputStream == null) {
-			throw new FileNotFoundException("Could not find " + fileName + " on the classpath");
-		}
-		return readContentsIgnoringCarrageReturns(new InputStreamReader(fileInputStream));
 	}
 }

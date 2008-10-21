@@ -64,7 +64,7 @@ public class TestTester {
 		this.classTestTester = classTestTester;
 	}
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException, SourceChangeException {
 		try {
 			try {
 				mainArguments = new MainArguments(args, new FileExistenceChecker() {
@@ -83,12 +83,6 @@ public class TestTester {
 
 			long runTime = doMain();
 			System.out.println("took " + (runTime / (1000 * 60)) + " minutes");
-		} catch (SourceChangeException e) {
-			System.err.println("Jesting failed!");
-			e.printStackTrace();
-			// what to print????
-		} catch (IOException e) {
-			e.printStackTrace();
 		} finally {
 			// We may need to close the window now.
 			// This is ugly. Could we just not bring it up?
@@ -99,7 +93,10 @@ public class TestTester {
 
 	private static long doMain() throws IOException, SourceChangeException {
 		long t1 = System.currentTimeMillis();
-		Configuration configuration = new RealConfiguration(RealConfiguration.DEFAULT_CONFIGURATION_FILENAME);
+		Configuration configuration = new RealConfiguration(mainArguments.getConfigFileName());
+		String ignoreListFileName = mainArguments.getIgnoreListFileName();
+		String ignoreListFileContents = ignoreListFileName == null ? null : Util.readFile(ignoreListFileName);
+		IgnoreList ignoreList = new IgnoreList(ignoreListFileContents);
 		Report aReport = null;
 		OutputStream out = new FileOutputStream(configuration.xmlReportFileName());
 		Writer reportFileWriter = new OutputStreamWriter(out, "UTF-8");
@@ -114,20 +111,17 @@ public class TestTester {
 														// - XMLReportWriter
 														// should do this
 
-			ProgressReporter progressReporter = mainArguments.shouldShowProgressDialog() ? new RealProgressReporter(configuration) :
-			// the cast should not be necessary but Eclipse's compiler thinks it
-			// is
-					(ProgressReporter) new NullProgressReporter();
+			ProgressReporter progressReporter = mainArguments.shouldShowProgressDialog() ? new RealProgressReporter(configuration) : new NullProgressReporter();
 
 			aReport = new RealReport(configuration, new PrintWriter(System.out), anXMLReportWriter, progressReporter);
 
 			List<String> directoryNames = mainArguments.getDirectoryOrFileNames();
-			ClassIterator classIterator = new FileBasedClassIterator(configuration, directoryNames, aReport);
+			ClassIterator classIterator = new FileBasedClassIterator(configuration, ignoreList, directoryNames, aReport);
 
 			String buildRunningCommand = mainArguments.getBuildRunningCommand();
 			TestRunner testRunner = new RealTestRunner(configuration, buildRunningCommand);
 
-			ClassTestTester classTestTester = new RealClassTestTester(testRunner, new RealMutationsList(RealMutationsList.DEFAULT_MUTATIONS_FILENAME));
+			ClassTestTester classTestTester = new RealClassTestTester(testRunner, new RealMutationsList(mainArguments.getMutationsFileName()));
 
 			TestTester testTester = new TestTester(testRunner, classIterator, classTestTester);
 			testTester.run();
@@ -144,8 +138,6 @@ public class TestTester {
 	}
 
 	public void run() throws SourceChangeException {
-		// XXX need to print more detailed info about why tests failed;
-		// not just pass-fail
 		boolean testsPassedBeforeAnyChanges = testRunner.testsRunWithoutFailures();
 		if (!testsPassedBeforeAnyChanges) {
 			throw new SourceChangeException("Couldn't run test tester because tests didn't pass before any changes made - see FAQ at http://jester.sourceforge.net");

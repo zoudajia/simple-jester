@@ -1,6 +1,5 @@
 package jester;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -14,8 +13,10 @@ public class FileBasedClassSourceCodeChanger implements ClassSourceCodeChanger {
 	private String valueChangedTo = "not changed";
 
 	private Report myReport;
+	private final IgnoreList ignoreList;
 
-	public FileBasedClassSourceCodeChanger(String sourceFileName, Report aReport) {
+	public FileBasedClassSourceCodeChanger(IgnoreList ignoreList, String sourceFileName, Report aReport) {
+		this.ignoreList = ignoreList;
 		this.sourceFileName = sourceFileName;
 		myReport = aReport;
 	}
@@ -23,15 +24,7 @@ public class FileBasedClassSourceCodeChanger implements ClassSourceCodeChanger {
 	public IgnoreListDocument getOriginalContents() throws ConfigurationException {
 		try {
 			if (originalContents == null) {
-				String ignoreListContents = "";
-				// XXX fix 1182669 here
-				try {
-					ignoreListContents = Util.readFileOnClassPath(IgnoreListDocument.FILE_NAME);
-				} catch (FileNotFoundException ignored) {
-					System.err.println("Warning - could not find " + IgnoreListDocument.FILE_NAME + " so using default ignore list.");
-					ignoreListContents = "%/*%*/\n" + "%//%\\n\n" + "%//stopJesting%//resumeJesting\n" + "%case%:\n";
-				}
-				originalContents = new IgnoreListDocument(Util.readFile(sourceFileName), new IgnoreList(ignoreListContents));
+				originalContents = new IgnoreListDocument(Util.readFile(sourceFileName), ignoreList);
 			}
 			return originalContents;
 		} catch (IOException ex) {

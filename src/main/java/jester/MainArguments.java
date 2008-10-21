@@ -87,10 +87,10 @@ public class MainArguments {
 
 	public static void printUsage(PrintStream out, String version) {
 		out.println("Jester version " + version);
-		String optionaArguments = "[-" + MUTATIONS_ARG_NAME + " foo.txt -" + IGNORE_ARG_NAME + " bar.txt -" + CONFIG_ARG_NAME + " j.txt -" + SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME + " true|false]";
+		String optionalArguments = "[-" + MUTATIONS_ARG_NAME + " foo.txt -" + IGNORE_ARG_NAME + " bar.txt -" + CONFIG_ARG_NAME + " j.txt -" + SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME + " true|false]";
 		String manditoryArguments = "-" + BUILD_COMMAND_ARG_NAME + " <BuildRunningCommand> -" + SOURCE_ARG_NAME + " <sourceDirOrFile> <sourceDirOrFile> ... ";
-		out.println("java -jar simple-jester.jar " + manditoryArguments + optionaArguments);
-		out.println("example usage: java -jar simple-jester.jar \"ant\" com/oocode/foo");
+		out.println("java -jar simple-jester.jar " + manditoryArguments + optionalArguments);
+		out.println("example usage: java -jar simple-jester.jar -" + BUILD_COMMAND_ARG_NAME + " \"ant\" -" + SOURCE_ARG_NAME + " com/oocode/foo");
 		out.println("for FAQ see http://jester.sourceforge.net");
 		out.println("Copyright (2000-2008) Ivan Moore. Read the license.");
 	}
@@ -100,28 +100,32 @@ public class MainArguments {
 	}
 
 	public String getBuildRunningCommand() {
-		return get(BUILD_COMMAND_ARG_NAME).get(0);
+		return getFirstValue(BUILD_COMMAND_ARG_NAME);
 	}
 
 	public boolean shouldShowProgressDialog() {
-		List<String> shouldShowList = get(SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME);
-		if(shouldShowList == null) {
-			return true;
-		}
-		String shouldShowText = shouldShowList.get(0);
-		return "true".equals(shouldShowText);
+		String shouldShowText = getFirstValue(SHOULD_SHOW_PROGRESS_DIALOG_ARG_NAME);
+		return shouldShowText == null || "true".equals(shouldShowText);
 	}
 
 	public String getIgnoreListFileName() {
-		return get(IGNORE_ARG_NAME).get(0);
+		return getFirstValue(IGNORE_ARG_NAME);
 	}
 
 	public String getMutationsFileName() {
-		return get(MUTATIONS_ARG_NAME).get(0);
+		return getFirstValue(MUTATIONS_ARG_NAME);
 	}
 
 	public String getConfigFileName() {
-		return get(CONFIG_ARG_NAME).get(0);
+		return getFirstValue(CONFIG_ARG_NAME);
+	}
+
+	private String getFirstValue(String name) {
+		List<String> listOfValues = get(name);
+		if(listOfValues == null) {
+			return null;
+		}
+		return listOfValues.get(0);
 	}
 
 	private List<String> get(String argName) {

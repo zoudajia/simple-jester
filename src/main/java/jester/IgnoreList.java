@@ -9,6 +9,10 @@ public class IgnoreList {
 
 	public IgnoreList(String ignoreFileContents) {
 		contents = ignoreFileContents;
+		if(ignoreFileContents == null) {
+			System.err.println("Warning - no ignore list file specified so using default ignore list.");
+			contents = "%/*%*/\n" + "%//%\\n\n" + "%//stopJesting%//resumeJesting\n" + "%case%:\n";
+		}
 	}
 
 	public List<IgnorePair> ignorePairs() throws ConfigurationException {

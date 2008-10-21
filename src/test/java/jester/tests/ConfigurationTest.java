@@ -16,18 +16,7 @@ public class ConfigurationTest extends TestCase {
 	}
 
 	public void testDefaults() throws IOException {
-		Configuration config = new RealConfiguration("there must be no file called this", NullErrorStream); // there
-																											// is
-																											// no
-																											// file
-																											// called
-																											// "there
-																											// must
-																											// be
-																											// no
-																											// file
-																											// called
-																											// this"
+		Configuration config = new RealConfiguration(null, NullErrorStream);
 
 		assertTrue(!config.shouldReportEagerly());
 		assertEquals(".java", config.sourceFileExtension());
