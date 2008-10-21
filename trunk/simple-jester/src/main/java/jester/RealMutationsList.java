@@ -1,6 +1,7 @@
 package jester;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,14 +9,15 @@ import java.io.PrintStream;
 import java.util.StringTokenizer;
 
 public class RealMutationsList implements MutationsList {
-	public static final String DEFAULT_MUTATIONS_FILENAME = "mutations.cfg";
-
 	private String myFileName;
 	private PrintStream myErrorStream;
 
 	public RealMutationsList(String fileName, PrintStream errorStream) {
 		myFileName = fileName;
 		myErrorStream = errorStream;
+		if (myFileName == null) {
+			myErrorStream.println("Warning - no mutation file specified so using default mutations.");
+		}
 	}
 
 	public RealMutationsList(String fileName) {
@@ -32,9 +34,7 @@ public class RealMutationsList implements MutationsList {
 
 	public void visit(MutationMaker aMutationMaker) throws SourceChangeException {
 		try {
-			InputStream mutationsFile = ClassLoader.getSystemResourceAsStream(myFileName);
-			if (mutationsFile == null) {
-				myErrorStream.println("Warning - could not find " + DEFAULT_MUTATIONS_FILENAME + " so using default mutations.");
+			if (myFileName == null) {
 				aMutationMaker.mutate("true", "false");
 				aMutationMaker.mutate("false", "true");
 				aMutationMaker.mutate("if(", "if(true ||");
@@ -44,6 +44,7 @@ public class RealMutationsList implements MutationsList {
 				aMutationMaker.mutate("==", "!=");
 				aMutationMaker.mutate("!=", "==");
 			} else {
+				InputStream mutationsFile = new FileInputStream(myFileName);
 				BufferedReader aBufferedReader = new BufferedReader(new InputStreamReader(mutationsFile));
 
 				visit(aBufferedReader, aMutationMaker);

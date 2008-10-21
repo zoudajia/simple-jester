@@ -1,5 +1,6 @@
 package jester;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -7,23 +8,16 @@ import java.util.Locale;
 import java.util.Properties;
 
 public class RealConfiguration implements Configuration {
-	public static final String DEFAULT_CONFIGURATION_FILENAME = "jester.cfg";
-
 	private Logger myLogger = new RealLogger();
 	private Properties myProperties;
 
 	public RealConfiguration(String configFileName, PrintStream errorStream) throws IOException {
 		myProperties = new Properties();
-		// FIXME Let's not load this from the class loader
-		// or at least not only from the Class loader
-		InputStream configPropertyFile = ClassLoader.getSystemResourceAsStream(configFileName);
-		if (configPropertyFile == null) {
-			configPropertyFile = getClass().getResourceAsStream(configFileName);
-		}
-		if (configPropertyFile != null) {
+		if (configFileName != null) {
+			InputStream configPropertyFile = new FileInputStream(configFileName);
 			myProperties.load(configPropertyFile);
 		} else {
-			errorStream.println("Warning - could not find " + DEFAULT_CONFIGURATION_FILENAME + " so using default configuration values.");
+			errorStream.println("Warning - no config specified so using default configuration values.");
 		}
 	}
 

@@ -7,10 +7,6 @@ public class RealTestRunner implements TestRunner {
 	private Configuration myConfiguration;
 	private String myBuildRunningCommand;
 
-	public static void main(String args[]) throws IOException, SourceChangeException {
-		System.out.println(new RealTestRunner(new RealConfiguration(RealConfiguration.DEFAULT_CONFIGURATION_FILENAME), args[0]).testsRunWithoutFailures());
-	}
-
 	public boolean testsRunWithoutFailures() throws SourceChangeException {
 		try {
 			Vector<String> output = Util.runCommand(myBuildRunningCommand, myConfiguration.getLogger());

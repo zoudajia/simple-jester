@@ -34,18 +34,7 @@ public class MutationsListTest extends TestCase {
 			one(mockMutationMaker).mutate("!=", "==");
 		}});
 
-		MutationsList aMutationsList = new RealMutationsList("there must be no file called this", NullErrorStream); // there
-																													// is
-																													// no
-																													// file
-																													// called
-																													// "there
-																													// must
-																													// be
-																													// no
-																													// file
-																													// called
-																													// this"
+		MutationsList aMutationsList = new RealMutationsList(null, NullErrorStream);
 		aMutationsList.visit(mockMutationMaker);
 
 		context.assertIsSatisfied();

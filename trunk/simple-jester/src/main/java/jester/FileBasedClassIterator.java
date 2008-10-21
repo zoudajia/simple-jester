@@ -7,9 +7,11 @@ public class FileBasedClassIterator implements ClassIterator {
 	private Configuration myConfiguration;
 	private List<String> myFileNames;
 	private Report myReport;
+	private final IgnoreList ignoreList;
 
-	public FileBasedClassIterator(Configuration configuration, List<String> directoryNames, Report aReport) {
+	public FileBasedClassIterator(Configuration configuration, IgnoreList ignoreList, List<String> directoryNames, Report aReport) {
 		myConfiguration = configuration;
+		this.ignoreList = ignoreList;
 		myFileNames = directoryNames;
 		myReport = aReport;
 	}
@@ -32,7 +34,7 @@ public class FileBasedClassIterator implements ClassIterator {
 		FileVisitor classTestVisitorWrapper = new FileVisitor() {
 			public void visit(String fileName) throws SourceChangeException {
 				if (fileName.endsWith(myConfiguration.sourceFileExtension())) {
-					ClassSourceCodeChanger sourceCodeSystem = new FileBasedClassSourceCodeChanger(fileName, myReport);
+					ClassSourceCodeChanger sourceCodeSystem = new FileBasedClassSourceCodeChanger(ignoreList, fileName, myReport);
 					visitor.testUsing(sourceCodeSystem);
 				}
 			}
@@ -53,9 +55,8 @@ public class FileBasedClassIterator implements ClassIterator {
 	}
 
 	private void iterateForFilesInDirectory(File directory, FileVisitor visitor) throws SourceChangeException {
-		String[] fileNames = directory.list();
-		for (int i = 0; i < fileNames.length; i++) {
-			String fileName = directory.getPath() + File.separator + fileNames[i];
+		for (String fileNameWithoutPath : directory.list()) {
+			String fileName = directory.getPath() + File.separator + fileNameWithoutPath;
 			visitFileOrDirectory(fileName, visitor);
 		}
 	}
