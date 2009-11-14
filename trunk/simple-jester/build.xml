@@ -4,6 +4,7 @@
 	<property name="build" value="build" />
 	<property name="dist" value="dist/" />
 	<property name="distbuild" value="${dist}/${productName}${versionNumber}" />
+	<property name="testoutput.dir" value="./testresults" />
 
 	<target name="check-for-version-number" unless="versionNumber">
 		<fail message="You must define a version number, e.g. -DversionNumber=102" />
@@ -39,6 +40,7 @@
 		<delete dir="${productName}${versionNumber}" />
 		<delete dir="${build}" />
 		<delete dir="${dist}" />
+		<delete dir="${testoutput.dir}" />
 	</target>
 
 	<target name="compile" depends="clean">
@@ -51,6 +53,38 @@
 				</fileset>
 			</classpath>
 		</javac>
+	</target>
+	
+	<target name="compile-tests" depends="compile">
+		<mkdir dir="${build}" />
+		<javac srcdir="${src}/test/java" destdir="${build}" source="1.5" target="1.5">
+			<classpath>
+				<pathelement path="${classpath}" />
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="compile-tests">
+		<mkdir dir="${testoutput.dir}"/>
+		<junit printsummary="on" fork="yes">
+			<classpath refid="classpath" />
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${testoutput.dir}">
+				<fileset dir="${src}/test/java">
+					<include name="jester/tests/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<junitreport todir="${testoutput.dir}">
+			<fileset dir="${testoutput.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report todir="${testoutput.dir}" />
+		</junitreport>
 	</target>
 
 	<path id="classpath">
