@@ -92,7 +92,7 @@ public class MainArguments {
 		out.println("java -jar simple-jester.jar " + manditoryArguments + optionalArguments);
 		out.println("example usage: java -jar simple-jester.jar -" + BUILD_COMMAND_ARG_NAME + " \"ant\" -" + SOURCE_ARG_NAME + " com/oocode/foo");
 		out.println("for FAQ see http://jester.sourceforge.net");
-		out.println("Copyright (2000-2008) Ivan Moore. Read the license.");
+		out.println("Copyright (2000-2009) Ivan Moore. Read the license.");
 	}
 
 	public List<String> getDirectoryOrFileNames() {

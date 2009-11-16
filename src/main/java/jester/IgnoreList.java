@@ -11,7 +11,10 @@ public class IgnoreList {
 		contents = ignoreFileContents;
 		if(ignoreFileContents == null) {
 			System.err.println("Warning - no ignore list file specified so using default ignore list.");
-			contents = "%/*%*/\n" + "%//%\\n\n" + "%//stopJesting%//resumeJesting\n" + "%case%:\n";
+			contents = 	"%/*%*/\n" + 
+						"%//%\\n\n" + 
+						"%//stopJesting%//resumeJesting\n" + 
+						"%case%:\n";
 		}
 	}
 

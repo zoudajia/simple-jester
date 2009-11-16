@@ -155,7 +155,6 @@ public class MainArgumentsTest {
 		private List<String> filesThatExist;
 		
 		public FileExistenceStub(String... filesThatExist) {
-			super();
 			this.filesThatExist = Arrays.asList(filesThatExist);
 		}
 
