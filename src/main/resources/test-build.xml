@@ -4,8 +4,8 @@
   <property name="build" value="bin"/>
 
   <path id="classpath">
-    <fileset dir="lib">
-      <include name="**/*.jar"/>
+    <fileset dir="libForRunningTestDotBat">
+      <include name="**/junit*.jar"/>
     </fileset>
     <pathelement location="."/>
     <pathelement location="${build}"/>

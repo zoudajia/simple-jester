@@ -92,7 +92,7 @@ public class TestTester {
 		long t1 = System.currentTimeMillis();
 		Configuration configuration = new RealConfiguration(mainArguments.getConfigFileName());
 		String ignoreListFileName = mainArguments.getIgnoreListFileName();
-		String ignoreListFileContents = ignoreListFileName == null ? null : Util.readFile(ignoreListFileName);
+		String ignoreListFileContents = ignoreListFileName == null ? null : Util.readFileConvertingWindowsLineEndingsToUnixOnes(ignoreListFileName);
 		IgnoreList ignoreList = new IgnoreList(ignoreListFileContents);
 		Report aReport = null;
 		OutputStream out = new FileOutputStream(configuration.xmlReportFileName());

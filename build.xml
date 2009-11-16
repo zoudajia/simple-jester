@@ -25,9 +25,9 @@
 				<include name="**/acceptancetests/*.*" />
 			</fileset>
 		</copy>
-		<copy todir="${distbuild}/lib">
+		<copy todir="${distbuild}/libForRunningTestDotBat">
 			<fileset dir="lib">
-				<include name="**/*.*" />
+				<include name="**/junit*.*" />
 			</fileset>
 		</copy>
 		<jar jarfile="${distbuild}/${productName}${versionNumber}-source.jar" basedir="${src}" />

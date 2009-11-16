@@ -1,1 +1,0 @@
-set classpath=%classpath%;simple-jester.jar;lib/junit.jar;lib/mmmockobjects.jar;.
