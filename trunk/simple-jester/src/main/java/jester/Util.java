@@ -42,6 +42,10 @@ public class Util {
 		return output;
 	}
 
+	public static String readFileConvertingWindowsLineEndingsToUnixOnes(String fileName) throws IOException {
+		return readFile(fileName).replace("\r\n", "\n");
+	}
+
 	public static String readFile(String fileName) throws IOException {
 		Reader reader = new FileReader(fileName);
 		try {
