@@ -10,16 +10,13 @@ import java.io.Writer;
 import java.util.List;
 
 /**
- * Copyright (2000-2008) Ivan Moore
+ * Copyright (2000-2009) Ivan Moore
  * 
  * see http://jester.sourceforge.net for updates, FAQs etc.
  * 
- * JUnit Software and Software Derivatives are available only under the terms of
- * the JUnit licence.
- * 
  * This software is only available under the terms of its licence:
  * 
- * Copyright (c) 2000-2008 Ivan Moore
+ * Copyright (c) 2000-2009 Ivan Moore
  * 
  * All rights reserved.
  * 
