@@ -14,7 +14,9 @@ public class IgnoreList {
 			contents = 	"%/*%*/\n" + 
 						"%//%\\n\n" + 
 						"%//stopJesting%//resumeJesting\n" + 
-						"%case%:\n";
+						"%case%:\n" + 
+						"%while(true)%{\n" +
+						"%while (true)%{\n";
 		}
 	}
 
