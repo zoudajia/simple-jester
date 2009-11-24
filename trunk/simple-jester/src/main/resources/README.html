@@ -3,10 +3,11 @@
 <HEAD>
 	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
 	<TITLE>Jester</TITLE>
-	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Win32)">
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.1  (Win32)">
 	<META NAME="AUTHOR" CONTENT="Ivan Moore">
-	<META NAME="CREATED" CONTENT="20071125;21522967">
-	<META NAME="CHANGED" CONTENT="20071207;21110676">
+	<META NAME="CREATED" CONTENT="20071125;21523000">
+	<META NAME="CHANGEDBY" CONTENT="Ivan Moore">
+	<META NAME="CHANGED" CONTENT="20091124;8332700">
 </HEAD>
 <BODY LANG="en-US" DIR="LTR">
 <H1><A HREF="http://jester.sourceforge.net/">Simple <FONT COLOR="#ff6666">J</FONT><FONT COLOR="#66ff99">e</FONT><FONT COLOR="#3366ff">s</FONT><FONT COLOR="#66ff99">t</FONT><FONT COLOR="#ff99ff">e</FONT><FONT COLOR="#ff6666">r</FONT></A>
@@ -37,21 +38,23 @@ agreement</A> ); it might work on those or other platforms - see the
 <A HREF="http://jester.sourceforge.net/">Jester web page</A> for
 latest known bugs, platforms that it has been tried on, FAQs, etc).
 Older versions of Jester might work with older versions of Java.</P>
-<P>The <FONT COLOR="#008000">most important bits are in green</FONT>, for the impatient.</P>
+<P>The <FONT COLOR="#008000">most important bits are in green</FONT>,
+for the impatient.</P>
 <H2>Installation:</H2>
 <UL>
 	<LI><P STYLE="margin-bottom: 0cm">unzip the jester.zip file (e.g.
 	simple-jester-1.0.zip) in an empty directory 
 	</P>
-	<LI><P STYLE="margin-bottom: 0cm">Java (&gt;=1.4) must already be
-	installed, with java on the path 
+	<LI><P STYLE="margin-bottom: 0cm">Java (&gt;=1.5) must already be
+	installed 
 	</P>
-	<LI><P STYLE="margin-bottom: 0cm">For a simple
-	example (which currently only runs under Windows), run the batch
-	file '<TT>test.bat</TT>'. 
+	<LI><P STYLE="margin-bottom: 0cm">For a simple example (which
+	currently only runs under Windows and requires Java to be on the
+	path), run the batch file '<TT>test.bat</TT>'. 
 	</P>
-	<LI><P>Some text should be output, and after less than 2 minutes,
-	the execution should finish with following text output: 
+	<LI><P>Some text should be output (and a progress dialog shown), and
+	after less than 2 minutes, the execution should finish with
+	following text output: 
 	</P>
 </UL>
 <P><TT>17 mutations survived out of 19 changes. Score = 11</TT><BR><TT>took
@@ -61,12 +64,12 @@ Older versions of Jester might work with older versions of Java.</P>
 	<LI><P STYLE="margin-bottom: 0cm">If the message above does not
 	appear, see the FAQ referenced at the end of this document. 
 	</P>
-	<P>This example also needs <B>Python &gt;= 2.0</B> installed and
-	generates a file &quot;<TT>jester.html</TT>&quot; which shows the
-	changes Jester made that did not cause the tests to fail. (If you
-	don't have python installed, then '<TT>test.bat</TT>' will still run
-	but won't produce &quot;<TT>jester.html</TT>&quot; and will say
-	something about python not being recognized. 
+	<P>This example also needs <B>Python &gt;= 2.0</B> installed in
+	order to generate a file &quot;<TT>jester.html</TT>&quot; which
+	shows the changes Jester made that did not cause the tests to fail.
+	(If you don't have python installed, then '<TT>test.bat</TT>' will
+	still run but won't produce &quot;<TT>jester.html</TT>&quot; and
+	will say something about python not being recognized. 
 	</P>
 </UL>
 <P>Jester has a progress window - the progress bar shows the
@@ -80,20 +83,23 @@ text area changing - because that was simpler to implement.
 </P>
 <H2>Usage:</H2>
 <UL>
-	<LI><P><STRONG><B><FONT COLOR="#008000">Very IMPORTANT</FONT></B></STRONG><B><FONT COLOR="#008000">
-	- only run Jester on a copy of your source files</FONT></B> - as
-	Jester changes the source code that it works on. If you use source
-	control (which everyone should!) then you can leave your source code
-	where it is (making sure everything you want to be in source control
-	is checked in) and overwrite all your source from source control
-	after running Jester. If you don't use source control, only run
-	Jester on a copy of your source in a different directory, otherwise
-	you'll regret it!</P>
-	<LI><P><FONT COLOR="#008000">To run Jester, execute '<TT><B>java -jar simple-jester.jar BUILD_COMMAND SOURCE_DIRECTORY</B></TT>'
-	where <TT>BUILD_COMMAND</TT> is your build command and <TT>SOURCE_DIRECTORY</TT>
+	<LI><P><STRONG><FONT COLOR="#008000"><B>Very IMPORTANT</B></FONT></STRONG><FONT COLOR="#008000">
+	</FONT><FONT COLOR="#008000"><B>- only run Jester on a copy of your
+	source files</B></FONT> - as Jester changes the source code that it
+	works on. If you use source control (which everyone should!) then
+	you can leave your source code where it is (making sure everything
+	you want to be in source control is checked in) and overwrite all
+	your source from source control after running Jester. If you don't
+	use source control, only run Jester on a copy of your source in a
+	different directory, otherwise you'll regret it!</P>
+	<LI><P><FONT COLOR="#008000">To run Jester, execute '</FONT><TT><FONT COLOR="#008000"><B>java
+	-jar simple-jester.jar -buildCommand BUILD_COMMAND -source
+	SOURCE_DIRECTORY</B></FONT></TT><FONT COLOR="#008000">' where
+	</FONT><TT><FONT COLOR="#008000">BUILD_COMMAND</FONT></TT><FONT COLOR="#008000">
+	is your build command and </FONT><TT><FONT COLOR="#008000">SOURCE_DIRECTORY</FONT></TT><FONT COLOR="#008000">
 	is the directory (or a single source file) that contains the source
-	code that you want<FONT FACE="Times New Roman, serif"> Jester </FONT> to
-	mutation test.</FONT></P>
+	code that you want </FONT><FONT COLOR="#008000"><FONT FACE="Times New Roman, serif">Jester
+	</FONT></FONT><FONT COLOR="#008000">to mutation test.</FONT></P>
 	<LI><P><TT><FONT COLOR="#008000">BUILD_COMMAND</FONT></TT><FONT COLOR="#008000">
 	should be the build command that is expected to show up any changes
 	to code in the </FONT><TT><FONT COLOR="#008000">SOURCE_DIRECTORY.
@@ -172,9 +178,10 @@ text area changing - because that was simpler to implement.
 </UL>
 <H2>Configuration options</H2>
 <P>For the following features, edit the file called &quot;<TT>jester.cfg</TT>&quot;
-from the installation directory and make sure it is on the classpath.
-For example, <TT>buildPassString=BUILD SUCCESSFUL</TT> refers to a
-line of text in the <TT>jester.cfg</TT> file. 
+from the installation directory and specify it when running Jester
+using &ldquo;-config jester.cfg&rdquo;. For example,
+<TT>buildPassString=BUILD SUCCESSFUL</TT> refers to a line of text in
+the <TT>jester.cfg</TT> file. 
 </P>
 <UL>
 	<LI><P STYLE="margin-bottom: 0cm">Jester can be used for builds
@@ -199,8 +206,9 @@ line of text in the <TT>jester.cfg</TT> file.
 <H2>Configurable mutations</H2>
 <P>The mutations that Jester applies to the source code are
 configurable, by editing the file &quot;<TT>mutations.cfg</TT>&quot;
-from the installation directory, which must be on the classpath. Each
-line of this file must have a format like: 
+from the installation directory and specify it when running Jester
+using &ldquo;-mutations mutations.cfg&rdquo;. Each line of this file
+must have a format like: 
 </P>
 <P><TT>%if(%if(true ||</TT> where % can be any single character as a
 delimiter, and the text <TT>if(</TT> will be replaced by <TT>if(true
@@ -209,13 +217,15 @@ delimiter, and the text <TT>if(</TT> will be replaced by <TT>if(true
 <P>This simple scheme of replacing text without parsing has proven
 adequate so far, but may change in a future version of Jester.</P>
 <H2>Configurable Ignore List (e.g. for ignoring comments)</H2>
-<P>Jester can be made to ignore parts of every source file, by using
-the <TT>ignorelist.cfg</TT> file. This file contains lines starting
-with a delimiter character that specify regions of the source code to
-ignore; i.e. regions where it will not try to make a mutation. The
-first string is where to start ignoring the source and the second is
-where to stop ignoring the source. For example, to ignore comments in
-Java code, the <TT>ignorelist.cfg</TT> file would contain: 
+<P>Jester can be made to ignore parts of every source file, by
+editing the <TT>ignorelist.cfg</TT> file and specify it when running
+Jester using &ldquo;-ignore ignorelist.cfg&rdquo;. This file contains
+lines starting with a delimiter character that specify regions of the
+source code to ignore; i.e. regions where it will not try to make a
+mutation. The first string is where to start ignoring the source and
+the second is where to stop ignoring the source. For example, to
+ignore comments in Java code, the <TT>ignorelist.cfg</TT> file would
+contain: 
 </P>
 <PRE>%/*%*/
 %//%\n</PRE><P>
@@ -247,47 +257,47 @@ of Pester. This version of Jester is relatively easy to get to work
 for any language as long as you can give Jester some command to run
 (to compile if necessary, and run the tests of the code you want to
 run Jester on) and the source file extension.</P>
-
 <H2>Acknowledgements 
 </H2>
 <P>Very many thanks to:</P>
 <UL>
-	<LI>Malte Finsterwalder for his feedback on simple-jester. 
-
-	<LI>Nat Pryce for
-	reporting the problem with running simple-jester version 1.0 in linux. 
-
-	<LI>Elliotte Rusty Harold for
+	<LI><P STYLE="margin-bottom: 0cm">Malte Finsterwalder for his
+	feedback on simple-jester. 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Nat Pryce for reporting the
+	problem with running simple-jester version 1.0 in linux. 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Elliotte Rusty Harold for
 	reporting and fixing bug 1035010. 
-	
-	<LI>Diego Vallespir for reporting bugs
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Diego Vallespir for reporting bugs
 	1031730 and 1031735. 
-	
-	<LI>Bernd Schiffer for sending fixes
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Bernd Schiffer for sending fixes
 	for using source directories with spaces in their names. 
-	
-	<LI>Stefan Roock, who has joined the
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Stefan Roock, who has joined the
 	Jester project as a developer. 
-	
-	<LI>Brett Neumeier for the suggested
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Brett Neumeier for the suggested
 	improvements to the <TT>makeWebView.py</TT> script. 
-	
-	<LI>Aho Augasmagi for getting me to
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Aho Augasmagi for getting me to
 	implement the Ignore Lists. 
-	
-	<LI>Kent Beck and Robert Martin for
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Kent Beck and Robert Martin for
 	their great quotes about Jester on the <A HREF="http://jester.sourceforge.net/">Jester
 	home page</A>. 
-	
-	<LI>Duncan Pierce for the idea of
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Duncan Pierce for the idea of
 	using the <TT>jesterReport.xml</TT> file to generate the &quot;<TT>.html</TT>&quot;
 	files to show the changes Jester made that did not cause the tests
 	to fail in an easily browsable way. 
-	
-	<LI>Manfred Kaul for sending a fix to make Jester report problems
+	</P>
+	<LI><P>Manfred Kaul for sending a fix to make Jester report problems
 	when it tries to 'exec' things that don't work (in particular, if
 	things are missing from the classpath). 
-	
+	</P>
 </UL>
 <H2>Support:</H2>
 <P>Please check the <A HREF="http://jester.sourceforge.net/">Jester
@@ -304,8 +314,8 @@ PST 2001 Trying to run command &quot;ant.bat -f test-build.xml&quot;</TT>&quot;,
 then try running &quot;<TT>ant.bat -f test-build.xml</TT>&quot;; this
 may then reveal the problem. In the case of tests not passing (e.g.
 the message &quot;Couldn't run test tester because tests didn't pass
-before any changes made&quot;), try running the tests directly
-(e.g. &quot;<TT>ant.bat -f test-build.xml</TT>&quot;). Please delete the
+before any changes made&quot;), try running the tests directly (e.g.
+&quot;<TT>ant.bat -f test-build.xml</TT>&quot;). Please delete the
 file &quot;<TT>jester.log</TT>&quot; whenever it gets too large, or
 before running Jester if preferred. 
 </P>
